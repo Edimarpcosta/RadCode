@@ -1,0 +1,67 @@
+{-------------------------------------------------
+  Returns:
+
+   0  : Card is invalid or unknown
+   1  : Card is a valid AmEx
+   2  : Card is a valid Visa
+   3  : Card is a valid MasterCard
+-------------------------------------------------}
+
+function CheckCC(c: string): Integer;
+var
+  card: string[21];
+  Vcard: array[0..21] of Byte absolute card;
+  Xcard: Integer;
+  Cstr: string[21];
+  y, x: Integer;
+begin
+  Cstr := '';
+  FillChar(Vcard, 22, #0);
+  card := c;
+  for x := 1 to 20 do
+    if (Vcard[x] in [48..57]) then
+      Cstr := Cstr + chr(Vcard[x]);
+  card := '';
+  card := Cstr;
+  Xcard := 0;
+  if not odd(Length(card)) then
+    for x := (Length(card) - 1) downto 1 do
+    begin
+      if odd(x) then
+        y := ((Vcard[x] - 48) * 2)
+      else
+        y := (Vcard[x] - 48);
+      if (y >= 10) then
+        y := ((y - 10) + 1);
+      Xcard := (Xcard + y)
+    end
+  else
+    for x := (Length(card) - 1) downto 1 do
+    begin
+      if odd(x) then
+        y := (Vcard[x] - 48)
+      else
+        y := ((Vcard[x] - 48) * 2);
+      if (y >= 10) then
+        y := ((y - 10) + 1);
+      Xcard := (Xcard + y)
+    end;
+  x := (10 - (Xcard mod 10));
+  if (x = 10) then
+    x := 0;
+  if (x = (Vcard[Length(card)] - 48)) then
+    Result := Ord(Cstr[1]) - Ord('2')
+  else
+    Result := 0
+end;
+
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  case CheckCC(Edit1.Text) of
+    0: Label1.Caption := 'Card is invalid or unknown';
+    1: Label1.Caption := 'Card is a valid AmEx';
+    2: Label1.Caption := 'Card is a valid Visa';
+    3: Label1.Caption := 'Card is a valid MasterCard';
+  end;
+end;

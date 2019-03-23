@@ -1,0 +1,29 @@
+//Declare uses FMX.DialogService,System.UITypes;
+
+var
+  LDefaultValue, LPrompt, TaskName: string;
+begin
+  try
+    LPrompt := 'Task';
+    LDefaultValue := '';
+    TDialogService.InputQuery('Enter New Task', [LPrompt], [LDefaultValue],
+      procedure(const AResult: TModalResult; const AValues: array of string)
+      begin
+        if AResult = mrOk then
+          TaskName := AValues[0]
+        else
+          TaskName := '';
+        if not(TaskName.Trim = '') then
+        begin
+          FDQueryInsert.ParamByName('TaskName').AsString := TaskName;
+          FDQueryInsert.ExecSQL();
+          FDTableTask.Refresh;
+          LinkFillControlToField1.BindList.FillList;
+        end;
+      end);
+  except
+    on E: Exception do
+    begin
+      ShowMessage(E.Message);
+    end;
+  end;

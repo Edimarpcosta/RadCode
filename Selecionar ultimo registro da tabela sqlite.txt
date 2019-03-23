@@ -1,0 +1,8 @@
+SELECT
+ artistid,
+ name
+FROM
+ artists
+ORDER BY
+ artistid DESC
+LIMIT 1;

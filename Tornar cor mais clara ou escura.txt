@@ -1,0 +1,29 @@
+{
+Sometimes in run-time you need play with colors. For example, you have the some
+color value and you want to make it more dark or light. The next two function
+were written for it.
+}
+
+function Dark(Col: TColor; Percent: Byte): TColor;
+var R, G, B: Byte;
+begin
+  R := GetRValue(Col);
+  G := GetGValue(Col);
+  B := GetBValue(Col);
+  R := Round(R*Percent/100);
+  G := Round(G*Percent/100);
+  B := Round(B*Percent/100);
+  Result := RGB(R, G, B);
+end;
+
+function Light(Col: TColor; Percent: Byte): TColor;
+var R, G, B: Byte;
+begin
+  R := GetRValue(Col);
+  G := GetGValue(Col);
+  B := GetBValue(Col);
+  R := Round(R*Percent/100) + Round(255 - Percent/100*255);
+  G := Round(G*Percent/100) + Round(255 - Percent/100*255);
+  B := Round(B*Percent/100) + Round(255 - Percent/100*255);
+  Result := RGB(R, G, B);
+end;

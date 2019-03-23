@@ -1,0 +1,39 @@
+function IsISBN(ISBN: String): Boolean;
+var
+  Number, CheckDigit: String;
+  CheckValue, CheckSum, Err: Integer;
+  i, Cnt: Word;
+begin
+  {Get check digit}
+  CheckDigit := Copy(ISBN, Length(ISBN), 1);
+  {Get rest of ISBN, minus check digit and its hyphen}
+  Number := Copy(ISBN, 1, Length(ISBN) - 2);
+  {Length of ISBN remainder must be 11 and check digit between 9 and 9 or X}
+  if (Length(Number) = 11) and (Pos(CheckDigit, '0123456789X') > 0) then
+    begin
+    {Get numeric value for check digit}
+    if (CheckDigit = 'X') then
+      CheckSum := 10
+    else
+      Val(CheckDigit, CheckSum, Err);
+    {Iterate through ISBN remainder, applying decode algorithm}
+    Cnt := 1;
+    for i := 1 to 12 do begin
+      {Act only if current character is between "0" and "9" to exclude hyphens}
+      if (Pos(Number[i], '0123456789') > 0) then begin
+        Val(Number[i], CheckValue, Err);
+        {Algorithm for each character in ISBN remainder, Cnt is the nth
+        character so processed}
+        CheckSum := CheckSum + CheckValue * (11 - Cnt);
+        Inc(Cnt);
+      end;
+    end;
+    {Verify final value is evenly divisible by 11}
+    if (CheckSum MOD 11 = 0) then
+      IsISBN := True
+    else
+      IsISBN := False;
+  end
+  else
+    IsISBN := False;
+end;

@@ -1,0 +1,4 @@
+//Codigo
+Image1.Picture := nil;
+ImageList1.GetBitmap(1, Image1.Picture.Bitmap);//Coloca a foto de posicao 1 dentro do timage
+//Se quiser a outra imagem, basta usar a posicao da mesma no Timgalist

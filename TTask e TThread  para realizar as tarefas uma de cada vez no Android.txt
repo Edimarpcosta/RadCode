@@ -1,0 +1,37 @@
+//Declare em uses System.Threading,System.Classes;
+
+//TTask e TThread  para realizar as tarefas uma de cada vez no Android
+//
+
+TTask.Run(//Inicio da tarefa thread
+    procedure
+    begin
+      try
+        FScanInProgress := True;
+        try
+         ReadResult := FScanManager.Scan(scanBitmap);
+        except
+          on E: Exception do
+          begin
+            TThread.Synchronize(nil,
+              procedure
+              begin
+                lblScanStatus.Text := E.Message;
+              end);
+
+            exit;
+          end;
+        end;
+
+        TThread.Synchronize(nil,
+          procedure
+          begin
+
+         ShowMessage('Tarefa1 Executada');
+          end);
+
+      finally
+   scanBitmap.Free;
+      end;
+
+    end);//Fim Da Tarefa thread

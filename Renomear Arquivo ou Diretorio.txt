@@ -1,0 +1,10 @@
+  if  DirectoryExists(local + 'PetSmart\vet_smart_content\') then
+    begin
+     // Renomear o diretorio
+       RenameFile(local + 'PetSmart\vet_smart_content\',local + 'PetSmart\pet_smart_content\')
+    end;
+
+///
+
+
+RenameFile(local + 'PetSmart\vet_smart_content\velho.txt',local + 'PetSmart\pet_smart_content\novo.txt')

@@ -1,0 +1,65 @@
+﻿//Uso com Function
+Private
+function ZeroLeft(vValor: integer; vQtd: string): string;
+
+
+function TForm1.ZeroLeft(vValor: Integer; vQtd: string): string;
+var
+  num: Integer;
+  QuantosZeros: string;
+begin
+  num := vValor; //Numero inteiro a ser formatado
+  QuantosZeros := vQtd;// Qtd de zeros entre aspas simples '5'
+  Result := Format('%.' + QuantosZeros + 'd', [num]);
+  //  Result=//Resultado da formatação: Ex se for 5 zeros=00012
+  //O Limite de zeros é 16
+end;
+
+Como usar
+Begin
+lbSenha.Caption:=ZeroLeft(Valor,'3'); 
+End;
+
+//Obs: O numero '3' acima representa o Length do Campo, e tudo que for menor que o lengt, sera zero a esquerda
+ 
+//--------------------------------------------------------------------------------
+//Uso sem Function
+procedure TForm1.btn3Click(Sender: TObject);
+var
+  num: Integer;
+  Result, QuantosZeros: string;
+begin
+  num := StrToInt(edtNum.Text); //Numero a ser formatado
+  QuantosZeros := edtQuantosZeros.Text;
+ Result := Format('%.' + QuantosZeros + 'd', [num]);
+  edtZeros.Text := Result;//Resultado da formatação: Ex se for 5 zeros=00012
+  //O Limite de zeros é 16
+end;
+
+//------------------------------------------------------------------------------
+
+///
+
+//Função de Zeros antiga
+{  case Length(edtID.Text) of  //inserir imagens faltantes
+    1:
+      begin //1 Digito
+        Zeros := '0000';
+      end;
+    2:
+      begin // 2 digitos
+        Zeros := '000';
+      end;
+    3:
+      begin //3 digitos
+        Zeros := '00';
+      end;
+    4:
+      begin //4 Digitos
+        Zeros := '0';
+      end;
+    5:
+      begin //5 digitos
+        Zeros := '';
+      end;
+  end;   }

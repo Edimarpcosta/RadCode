@@ -1,0 +1,6 @@
+Bruno Leandro
+   - 15 mai 2012
+o indy tem dois componente para realizar o encode e o decode (TIdEncoderMime,TIdDecoderMIME). voce pode adicionar os compo e com os comandos abaixo voce pode codificar e decodificar
+
+IdDecoderMIME1.DecodeString(stringVariavel);
+IdEncoderMime1.EncodeString(stringVariavel);

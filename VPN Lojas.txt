@@ -1,0 +1,87 @@
+(*
+008E3018   53                     push    ebx
+008E3019   8BD8                   mov     ebx, eax
+008E301B   6A01                   push    $01
+008E301D   6A00                   push    $00
+
+* Possible String Reference to: 'AgroMane2 Led Led200204 /DOMAIN:ser
+|                                vidor02'
+|
+008E301F   684C308E00             push    $008E304C
+
+* Possible String Reference to: 'rasdial.exe'
+|
+008E3024   6878308E00             push    $008E3078
+
+* Possible String Reference to: 'open'
+|
+008E3029   6884308E00             push    $008E3084
+008E302E   8BC3                   mov     eax, ebx
+
+* Reference to: QForms.TCustomForm.GetClientHandle(TCustomForm):QWorkspaceH;
+|
+008E3030   E81BEBBAFF             call    00491B50
+008E3035   50                     push    eax
+
+* Reference to: shell32.ShellExecuteA()
+|
+008E3036   E8A19DB5FF             call    0043CDDC
+008E303B   B201                   mov     dl, $01
+
+* Reference to control TFExpLoja2.btProcessar2 : TBitBtn
+|
+008E303D   8B83F8020000           mov     eax, [ebx+$02F8]
+008E3043   8B08                   mov     ecx, [eax]
+
+* Possible reference to virtual method TBitBtn.OFFS_64
+|
+008E3045   FF5164                 call    dword ptr [ecx+$64]
+008E3048   5B                     pop     ebx
+008E3049   C3                     ret
+
+*)
+
+///////////////////////////////////////////////////////////////////////////////
+
+(*
+008E54E8   53                     push    ebx
+008E54E9   8BD8                   mov     ebx, eax
+008E54EB   6A01                   push    $01
+008E54ED   6A00                   push    $00
+
+* Possible String Reference to: 'AgroMane3 Led Led200204 /DOMAIN:ser
+|                                vidor02'
+|
+008E54EF   681C558E00             push    $008E551C
+
+* Possible String Reference to: 'rasdial.exe'
+|
+008E54F4   6848558E00             push    $008E5548
+
+* Possible String Reference to: 'open'
+|
+008E54F9   6854558E00             push    $008E5554
+008E54FE   8BC3                   mov     eax, ebx
+
+* Reference to: QForms.TCustomForm.GetClientHandle(TCustomForm):QWorkspaceH;
+|
+008E5500   E84BC6BAFF             call    00491B50
+008E5505   50                     push    eax
+
+* Reference to: shell32.ShellExecuteA()
+|
+008E5506   E8D178B5FF             call    0043CDDC
+008E550B   B201                   mov     dl, $01
+
+* Reference to control TFExpLoja2.btProcessar3 : TBitBtn
+|
+008E550D   8B8324030000           mov     eax, [ebx+$0324]
+008E5513   8B08                   mov     ecx, [eax]
+
+* Possible reference to virtual method TBitBtn.OFFS_64
+|
+008E5515   FF5164                 call    dword ptr [ecx+$64]
+008E5518   5B                     pop     ebx
+008E5519   C3                     ret
+
+*)

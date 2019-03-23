@@ -1,0 +1,22 @@
+function TrocaCaracterEspecial(aTexto: string): string;
+const
+  // Lista de Caracteres Extras
+  xCarExt: array [1 .. 11] of string = ('\', '/', ':', '*', '?', '"', '<', '>',
+    '|', '''', '®');
+var
+  I: Integer;
+produto:string;
+begin
+  // Produto := edtItemName.Text;
+  Produto := aTexto;
+  // De acordo com o parâmetro aLimExt, elimina caracteres extras.
+  // if (aLimExt) then
+  for I := 1 to 11 do // Checa os 9 caracteres acima
+    Produto := StringReplace(Produto, xCarExt[I], '', [rfreplaceall]);
+  Result := Produto;
+end;
+
+
+//Como usar 
+var texto :string;
+texto := TrocaCaracterEspecial(DBEdit1.Text);

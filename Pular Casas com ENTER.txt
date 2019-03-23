@@ -1,0 +1,20 @@
+//Usar ENTER como TAB
+
+Habilitar o KeyPreview do Form
+
+No evento OnKeyPress do Form
+
+   If ( Key = #13 ) Then begin
+      Key := #0;
+      PostMessage( HANDLE, WM_KEYDOWN, VK_TAB, 1 );
+   End;
+
+ ou
+
+procedure TfrmDatas.FormKeyPress(Sender: TObject; var Key: Char);
+Begin // Usar o enter para pular as casas (Habilite o KeyPreview do form)
+If key = #13 then
+Begin
+Key:= #0;
+Perform(Wm_NextDlgCtl,0,0);
+End;

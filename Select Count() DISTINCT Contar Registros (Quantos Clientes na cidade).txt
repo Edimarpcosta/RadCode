@@ -1,0 +1,7 @@
+--Campos
+--Clientes.Cidade
+
+SELECT DISTINCT Cidade, COUNT(*) AS quantidade
+ FROM Clientes 
+GROUP BY Cidade
+ORDER BY quantidade DESC 

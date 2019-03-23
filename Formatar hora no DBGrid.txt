@@ -1,0 +1,4 @@
+TTimeField(dm.SQL_cartaodig.FieldByName('ENT1')).EditMask := '!99:99;1;_';
+TTimeField(dm.SQL_cartaodig.FieldByName('SAIDA1')).EditMask := '!99:99;1;_';
+TTimeField(dm.SQL_cartaodig.FieldByName('ENT2')).EditMask := '!99:99;1;_';
+TTimeField(dm.SQL_cartaodig.FieldByName('SAIDA2')).EditMask := '!99:99;1;_';

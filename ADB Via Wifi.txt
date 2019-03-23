@@ -1,0 +1,5 @@
+Conectar no mesmo wifi, abrir e ativar o app Wifi ADB( somente aparelhos com root)
+abra o CMD na pasta do adb e digite:
+adb connect ip_do_dispositivo_android 
+
+pronto, vc pode debugar seus projetos sem fio, como no delphi por exemplo!

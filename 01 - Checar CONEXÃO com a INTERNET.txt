@@ -1,0 +1,32 @@
+//Insira em uses WinInet
+
+//Declare
+ { Public declarations }
+ function estaConectado: boolean; //Press CTRL + SHIFT + C
+
+//Cole
+
+var
+  flags: DWORD;
+begin
+// verifica se está conectado a internet usando a API do Windows, é preciso declarar a uses WinInet.
+   if not InternetGetConnectedState(@flags, 0) then
+  begin
+    result := false;
+  end
+  else
+  begin
+    result := true;
+  end;
+
+
+//Como usar 
+
+if estaConectado Then 
+Begin
+ShowMessage('Você ESTÁ CONECTADO a internet!!!');
+end else 
+Begin
+ShowMessage('Você NÃO ESTÁ CONECTADO a internet!!!');
+End;
+

@@ -1,0 +1,19 @@
+function isWin64: string;//Retorna a versao de processamento do executavel: 32 ou 64 Bits
+
+//Declare o codigo acime em Public, Press CTRL + SHIFT + C e cole o codigo abaixo
+
+function isWin64: string;
+Begin
+ Result := {$IFDEF WIN32} 'x32'
+{$ELSE} 'x64'
+{$ENDIF}
+End;
+
+//Como usar
+
+Showmessage(isWin64);
+
+{
+Se o executavel for de x32, retorna x32,
+e se o executavel for de x64, retorna x64
+}

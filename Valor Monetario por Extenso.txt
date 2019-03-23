@@ -1,0 +1,33 @@
+Function TFData.Extenso( pValor:Extended ):String;
+Const
+   aCifra : Array[1..6,1..2] of String = (('TRILHÃO,','TRILHÕES,'),
+                                          ('BILHAO,' ,'BILHÕES,' ),
+                                          ('MILHAO,' ,'MILHÕES,' ),
+                                          ('MIL,'    ,'MIL,'     ),
+                                          ('   '     ,'   '      ),
+                                          ('CENTAVO' ,'CENTAVOS'));
+Var
+   tStr,tExtenso,tSubs:String;
+   tX,tCentavos:Integer;
+begin
+   tSubs := ' ';
+   tExtenso := ' ';
+   tStr := StrZero(pValor,18,2);
+   tCentavos := StrToInt( Copy(tStr,17,2) );
+   if pValor > 0 then
+   begin
+      if tCentavos > 0 then
+        tExtenso := ExtCem( StrZero( tCentavos,3,0 )) +
+aCifra[6,Trunc(iif(tCentavos = 1,1,2))];
+      if trunc( pValor ) > 0 then
+        tExtenso := iif(trunc( pValor ) = 1,'REAL','REAIS')+iif(tCentavos > 0, ' E ','')+tExtenso;
+      for tX := 5 Downto 1 do
+      begin
+         tSubs := Copy(tStr,(tX*3)-2,3);
+         if StrToInt( tSubs ) > 0 then
+           tExtenso := ExtCem( tSubs ) + aCifra[tX,Trunc(iif(StrToInt(
+tSubs )=1,1,2))]+' '+tExtenso;
+      end;
+   end;
+   Result := StripDouble( tExtenso );
+end;

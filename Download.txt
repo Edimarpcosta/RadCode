@@ -1,0 +1,25 @@
+procedure TF_Principal.DownloadApp;
+var
+  Caminho_D: String;
+  MyFile    : TFileStream;
+begin
+  {$IFDEF ANDROID}
+  {Verifica se o arquivo já existe na pasta de downloads. Apaga caso exista e cria novamente}
+  if FileExists(GetSharedDownloadsDir + '/app.apk') then
+    DeleteFile(GetSharedDownloadsDir+'/app.apk');
+
+  {Difinição do link de download}
+  {Nesse momento, você deverá informar o link completo para o download do arquivo}
+  Caminho_D:= DM.QRY_ParamENDFTP_APK.AsString; 
+
+  {Criação a instância do tipo TFileStream}
+  {Aqui informamos o local (diretório no mobile) onde o aplicativo será baixado}
+  MyFile := TFileStream.Create(GetSharedDownloadsDir+ '/app.apk', fmCreate);
+  try
+    {Download do arquivo}
+    IdHTTP.Get(Caminho_D, MyFile);
+  finally
+    MyFile.Free;
+  end;
+  {$ENDIF}
+end;

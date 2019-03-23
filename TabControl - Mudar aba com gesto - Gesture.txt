@@ -1,0 +1,54 @@
+//Inserir componente GestureManager, assinar pelo Tabcontrol e marcar gestos left e right
+
+procedure TMainForm.TabControlMainGesture(Sender: TObject;
+  const EventInfo: TGestureEventInfo; var Handled: Boolean);
+begin
+  case EventInfo.GestureID of
+    sgiLeft:
+      begin
+        if TabControlMain.TabIndex = 0 then
+        begin
+          ChangeTabAction1.ExecuteTarget(Self);
+          Handled := True;
+        end
+        else if TabControlMain.TabIndex = 1 then
+        begin
+          ChangeTabAction2.ExecuteTarget(Self);
+          Handled := True;
+        end
+        else if TabControlMain.TabIndex = 2 then
+        begin
+          ChangeTabAction3.ExecuteTarget(Self);
+          Handled := True;
+        end
+        else if TabControlMain.TabIndex = 3 then
+        begin
+          ChangeTabAction4.ExecuteTarget(Self);
+          Handled := True;
+        end;
+      end;
+    sgiRight:
+      begin
+        if TabControlMain.TabIndex = 4 then
+        begin
+          ChangeTabAction3.ExecuteTarget(Self);
+          Handled := True;
+        end
+        else if TabControlMain.TabIndex = 3 then
+        begin
+          ChangeTabAction2.ExecuteTarget(Self);
+          Handled := True;
+        end
+        else if TabControlMain.TabIndex = 2 then
+        begin
+          ChangeTabAction1.ExecuteTarget(Self);
+          Handled := True;
+        end
+        else if TabControlMain.TabIndex = 1 then
+        begin
+          ChangeTabAction0.ExecuteTarget(Self);
+          Handled := True;
+        end;
+      end;
+  end;
+end;

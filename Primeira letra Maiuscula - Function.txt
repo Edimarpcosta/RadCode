@@ -1,0 +1,8 @@
+Function UppFirst (Texto:String): String;
+var
+aTexto:string;
+Begin
+aTexto:=Texto;
+Result:= UpperCase(Copy(aTexto, 1, 1)) + LowerCase(Copy(Texto, 2, Length(Texto))); 
+//Usa a primeira letra em maiusculo
+End;

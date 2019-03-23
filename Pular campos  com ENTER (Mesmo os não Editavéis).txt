@@ -1,0 +1,5 @@
+If (Key=#13) Then 
+Begin
+SelectNext(ActiveControl, True, True)
+Key:=#0;
+End;

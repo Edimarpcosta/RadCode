@@ -1,0 +1,71 @@
+{Você pode utilizar esse comando para fazer confirmações de algum evento ou para apenas dar uma mensagem mais bonita do que o showmessage para o usuário}
+
+{Exemplo:}
+
+Application.messageBox('Deseja Excluir esse Registro?','Confirmação',mb_YesNo+mb_IconInformation+mb_DefButton2)then
+ tbl_clientes.delete;
+
+{Essa eh uma confirmação de exclusão, antes de excluir o registro o sistema pergunta ao usuário, a segunda aspas eh o titulo da mensagem, o mb_YesNo são os botões que a mensagem terá, o mb_IconInformation é o ícone que aparecerá na mensagem e o DefButton2 diz o foco do botão, no caso se apertar enter será Não}
+
+{Tipos de icones: mb_IconInformation, mb_IconExclamation, mb_IconQuestion, mb_IconError}
+
+{Tipos de botões: mb_Ok, _mb_YesNo, mb_OkCancel, tbm tem Abort, Retry e Cancel}
+
+{exemplo de mensagem simples:}
+
+Application.MessageBox('Operação Realizada com Sucesso!','Aviso',mb_Ok+mb_IconExclamation);
+
+
+
+-------------------------------
+
+{Para que as mensagens apareçam em português (na língua no sistema) não é necessário a tradução das units. Invés de usar a função messagedlg é melhor usar a função MessageBox
+
+Sintaxe:}
+
+
+MessageBox (Handle, Mensagem, Caption, Botões); {Onde
+
+
+Handle : Endereço do form na memória ;recomenda-se seu uso( Application.Handle) 
+Mensagem : A mensagem a ser mostrada 
+Caption : O titulo da mensagem 
+Botões : Os Botões que irão ser mostrados. Na língua do sistema 
+
+
+MB_ABORTRETRYIGNORE A mensagem mostra os três botões: Abort, Retry, and Ignore. 
+MB_OK A mensagem mostra um botão: OK. This is the default. 
+MB_OKCANCEL A mensagem mostra os dois botões: OK and Cancel. 
+MB_RETRYCANCEL A mensagem mostra os dois botões: Retry and Cancel. 
+MB_YESNO A mensagem mostra os dois botões: Yes and No. 
+MB_YESNOCANCEL A mensagem mostra os três botões: Yes, No, and Cancel. Sons
+
+
+MB_ICONEXCLAMATION, MB_ICONWARNING: Mostra o ícone de exclamação e som correspondente. Aos demais 
+MB_ICONINFORMATION, MB_ICONASTERISK 
+MB_ICONQUESTION 
+MB_ICONSTOP, 
+MB_ICONERROR, 
+MB_ICONHAND botões padrão
+
+
+MB_DEFBUTTON1: padrão não precisa ser colocado. 
+MB_DEFBUTTON2: Coloca o segundo botão como padrão 
+MB_DEFBUTTON3: Coloca o terceiro botão como padrão 
+MB_DEFBUTTON4: Coloca o quarto botão como padrão Respostas
+
+
+IDABORT 
+IDCANCEL 
+IDIGNORE 
+IDNO 
+IDOK 
+IDRETRY 
+IDYES Exemplo}
+
+
+Case MessageBox (Application.Handle, Pchar ('Deseja excluir o arquivo' + #13 + Label1.caption), 'Exclusão de arquivo', MB_YESNOCANCEL+MB_EXCLAMATION+MB_DEFBUTTON2) of 
+idYes: Procedimento 
+idNo: Procedimento 
+idCancel: Procedimento 
+end;

@@ -1,0 +1,12 @@
+
+
+     
+var Marca:String;
+begin
+
+ Marca := StringReplace(Marca, '´', 'a', [rfreplaceall]);// o caratere '´' será subsituido por 'a'
+End;
+
+
+
+ Marca := StringReplace(Marca, 'O que procura', 'Substituir por', [rfreplaceall]);

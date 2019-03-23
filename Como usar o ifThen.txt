@@ -1,0 +1,3 @@
+//Uses Math
+Button1.StyleLookup := IfThen(CameraComponent1.Active, 'stoptoolbutton',
+    'playtoolbutton');

@@ -1,0 +1,74 @@
+﻿--Pesquisas no banco de dados usando comandos SQL
+
+Select *  FROM Produtos where NomeProduto LIKE 'NOTEBOOK ASUS 4GB RAM 500HD CORE I5' --Pesquisa EXATA
+
+--------
+
+Select *  FROM Produtos where NomeProduto LIKE '%NOTEBOOK ASUS%' --Pesquisa NÃO EXATA
+
+--------
+
+Select *  FROM Produtos where NomeProduto NOT LIKE 'M%' --Pesquisa de TUDO QUE NÃO COMECE COM A LETRA "M".
+
+--------
+
+Select *  FROM Produtos where NomeProduto LIKE 'E%' -- Pesquisar produtos que COMEÇAM com a letra "E".
+
+--------
+
+Select *  FROM Produtos where NomeProduto LIKE '%E' --Pesquisar produtos que TERMINAM com a letra "E".
+
+--------
+
+Select NomeProduto  FROM Produtos where NomeProduto LIKE '_E%' --Pesquisar produtos que a SEGUNDA LETRA seja "E". Cada Anderline(_ Usado de varias formas) representa um caractere.
+
+--------
+
+Select NomeProduto  FROM Produtos where NomeProduto LIKE '[ES]%' --Pesquisar produtos que COMEÇAM com "E" ou "S".
+
+--------
+
+Select NomeProduto  FROM Produtos where NomeProduto LIKE '%[ES]' --Pesquisar produtos que TERMINAM com "E" ou "S".
+
+--------
+
+Select NomeProduto  FROM Produtos where NomeProduto LIKE '_[ES]%' --Pesquisar produtos que A SEGUNDA LETRA SEJA "E" ou "S".
+
+--------
+
+Select *  FROM Produtos --Listar TODOS OS CAMPOS e produtos.
+
+--------
+
+DROP TABLE Produtos --Ecluir uma tabela
+
+--------
+
+Select  TOP 10 PERCENT *  FROM Produtos --Mostrar 10% DOS PRODUTOS cadastrados.
+
+--------
+
+Select  * INTO Produtos1 FROM Produtos -- CRIAR UMA COPIA da tabela "Produtos" e dar o nome de "Produtos1".
+
+--------
+
+ALTER TABLE Produtos ADD  Total  AS Custo * Estoque --ADICIONAR O CAMPO Total a tabela Produtos, Onde SERA MULTIPLICADO AUTOMATICAMENTE "Custo * Estoque".
+
+--------
+
+sp_helpdb db_Banco --Mostrar dados sobre o banco.
+
+--------
+
+sp_help Produtos --Mostrar dados sobre a tabela.
+
+--------
+
+Select *  FROM Produtos Where Venda Between 1 and 1000 -- Selecionar Produtos com o valor de venda entre "1" e "100"
+--------
+
+ALTER TABLE Produtos Drop Column  TotalV  --Excluir Coluna de uma Tabela
+
+--------
+
+SELECT * From Produtos Where Prod_Nome Like '%NOTEBOOK%' and Fabricante Like 'HP' -- Pesquisa em que o nome contem "Notebook" e o Fabricante é exatamente "HP" 

@@ -1,0 +1,10 @@
+{
+There's no possibility to automatically
+open a TDateTimePicker than to send a F4 to it.
+}
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  DateTimePicker1.Perform(WM_KEYDOWN,VK_F4,0);
+  DateTimePicker1.Perform(WM_KEYUP,VK_F4,0);
+end;

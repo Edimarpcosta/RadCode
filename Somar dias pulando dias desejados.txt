@@ -1,0 +1,52 @@
+﻿// !!! Declare DateUtils em uses para funcionar !!!
+
+
+procedure TfMenu.btn2Click(Sender: TObject);
+var
+  QtdDias, i: integer;
+  Data, iniciodasemana: TDateTime;
+  Dia: string;
+begin
+  iniciodasemana := StartOfTheWeek(Now); //Segunda feira é setado como primeiro dia da semana
+  Dates.Date := iniciodasemana;
+  ShowMessage('Inicio da semana : ' + DateToStr(iniciodasemana));
+  QtdDias := seDias.Value;
+  Data := Dates.Date;
+
+  for i := 1 to QtdDias do
+  begin
+    if not (DayOfTheWeek(Data) in [DaySunday, DayMonday]) then  //Se o dia da data selecionada nao for domingo, nem segunda, adiciona para a lista
+    begin
+      Dia := FormatDateTime('dddd', Data); //Pega o dia da semana de acordo com a data
+     // UpperCase(Copy(Dia, 1, 1)) + LowerCase(Copy(Dia, 2, Length(Dia))); //Usa a primeira letra em maiusculo
+      mDatas.Lines.Add(IntToStr(i) + 'º : ' + DateToStr(Data) + ' - ' + UpperCase(Copy(Dia, 1, 1)) + LowerCase(Copy(Dia, 2, Length(Dia))));
+      Data := IncDay(Data, 1);
+    end
+    else
+    begin
+      Data := IncDay(Data, 1);
+    end;
+  end;
+
+end;
+
+-------------------
+
+Dias da semana em inglês:
+
+
+ PT-BR  -   EN-US 
+Domingo = Sunday
+----------------
+Segunda = Monday
+----------------
+Terça = Tuesday
+----------------
+Quarta = Wednesday
+----------------
+Quinta = Thursday
+----------------
+Sexta = Friday
+----------------
+Sabado = Saturday
+==============

@@ -1,0 +1,75 @@
+﻿program Servidor;
+
+uses
+  Vcl.Forms,
+  Web.WebReq,
+  IdHTTPWebBrokerBridge,
+  Dialogs,
+  Windows,
+  TLHelp32,
+  Winapi.PsAPI,
+  SysUtils,
+  uFormServer in 'uFormServer.pas' {fServer};
+  //
+
+function ProcessExists(anExeFileName: string): Boolean;
+var
+  ContinueLoop: BOOL;
+  FSnapshotHandle: THandle;
+  FProcessEntry32: TProcessEntry32;
+  fullPath: string;
+  myHandle: THandle;
+  myPID: DWORD;
+begin
+  FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  FProcessEntry32.dwSize := SizeOf(FProcessEntry32);
+  ContinueLoop := Process32First(FSnapshotHandle, FProcessEntry32);
+  Result := False;
+  while Integer(ContinueLoop) <> 0 do
+  begin
+    if UpperCase(ExtractFileName(FProcessEntry32.szExeFile)) = UpperCase(ExtractFileName(anExeFileName)) then
+    begin
+      myPID := FProcessEntry32.th32ProcessID;
+      myHandle := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, myPID);
+      if myHandle <> 0 then
+      try
+        SetLength(fullPath, MAX_PATH);
+        if GetModuleFileNameEx(myHandle, 0, PChar(fullPath), MAX_PATH) > 0 then
+        begin
+          SetLength(fullPath, StrLen(PChar(fullPath)));
+          if UpperCase(fullPath) = UpperCase(anExeFileName) then
+            Result := True;
+        end
+        else
+          fullPath := '';
+      finally
+        CloseHandle(myHandle);
+      end;
+      if Result then
+        Break;
+    end;
+    ContinueLoop := Process32Next(FSnapshotHandle, FProcessEntry32);
+  end;
+  CloseHandle(FSnapshotHandle);
+end;
+//
+{$R *.res}
+
+
+
+begin
+  if ProcessExists(ExtractFilename(Application.exename)) then
+  begin
+  Halt;
+   //  MessageDlg('O Servidor já está em execução!!!',mtWarning,[mbOk],0);
+      Application.Terminate;
+  end
+  else
+  begin
+    Application.Initialize;
+    Application.MainFormOnTaskbar := True;
+    Application.CreateForm(TfServer, fServer);
+    Application.CreateForm(TServerContainer1, ServerContainer1);
+    Application.Run;
+  end;
+end.

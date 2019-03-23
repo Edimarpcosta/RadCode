@@ -1,0 +1,19 @@
+//Uses
+Androidapi.JNI.GraphicsContentViewText, Androidapi.JNI.JavaTypes, Androidapi.IOUtils, Androidapi.JNI.Net; 
+//
+procedure TF_Principal.AtualizaApp;
+ {$IFDEF ANDROID}
+var
+  aFile  : Jfile;
+  Intent : JIntent;
+  {$ENDIF}
+begin
+ {$IFDEF ANDROID}
+  aFile  := TJfile.JavaClass.Init(stringtojstring(GetSharedDownloadsDir), StringToJString('App.apk'));
+  Intent := TJIntent.Create;
+  Intent.setAction(TJIntent.JavaClass.ACTION_VIEW);
+  Intent.addFlags(TJIntent.JavaClass.FLAG_ACTIVITY_NEW_TASK);
+  Intent.setDataAndType(TJnet_Uri.JavaClass.fromFile(aFile),StringToJString('application/vnd.android.package-archive'));
+  SharedActivityContext.startActivity(Intent);
+ {$ENDIF}
+end;

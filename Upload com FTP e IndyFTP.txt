@@ -1,0 +1,147 @@
+unit Unit1;
+
+interface
+
+uses
+Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+Dialogs, StdCtrls, ExtCtrls, IdBaseComponent, IdComponent,
+IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdFTP;
+
+type
+TForm1 = class(TForm)
+Memo_Relatorio_FTP: TMemo;
+Label_Host: TLabel;
+Label_Nome: TLabel;
+Label_Senha: TLabel;
+Label_FTP_Aviso: TLabel;
+Btn_Conectar: TButton;
+Btn_Desconectar: TButton;
+Btn_Upload: TButton;
+Edit_Host: TEdit;
+Edit_Name: TEdit;
+Edit_Senha: TEdit;
+Shape_Conectado: TShape;
+OpenDialog1: TOpenDialog;
+IdFTP1: TIdFTP;
+Button1: TButton;
+procedure Btn_ConectarClick(Sender: TObject);
+procedure Btn_UploadClick(Sender: TObject);
+procedure Btn_DesconectarClick(Sender: TObject);
+private
+{ Private declarations }
+public
+{ Public declarations }
+end;
+
+var
+Form1: TForm1;
+Diretorio_Leitura : String;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Btn_ConectarClick(Sender: TObject);
+begin
+idFTP1.Host := Edit_Host.Text;
+idFTP1.Username := Edit_Name.Text;
+idFTP1.Password := Edit_Senha.Text;
+try
+idFTP1.Connect;
+finally
+if idFTP1.Connected = True Then
+Shape_Conectado.Brush.Color := clLime;
+Memo_Relatorio_FTP.Lines.Add(''Conectado ao endereço: '' + idFTP1.Host);
+Memo_Relatorio_FTP.Lines.Add(''Servidor remoto: '' + idFTP1.SystemDesc);
+Memo_Relatorio_FTP.Lines.Add('' '');
+
+Btn_Upload.Enabled := True;
+Btn_Desconectar.Enabled := True;
+Btn_Conectar.Enabled :=False;
+end;
+
+end;
+
+procedure TForm1.Btn_UploadClick(Sender: TObject);
+var
+m : TStream;
+f : TStream;
+t : Cardinal;
+Nome_Arquivo,
+Auxiliar :String;
+contador : Integer;
+begin
+Auxiliar := '''';
+f := nil;
+m := nil;
+
+Memo_Relatorio_FTP.Lines.Add(''Diretório original: '' + Diretorio_Leitura);
+OpenDialog1.Filter := ''Arquivos(*.*)|*.*'';
+
+if OpenDialog1.Execute then
+begin
+
+Nome_Arquivo := OpenDialog1.FileName;
+
+Memo_Relatorio_FTP.Lines.Add (''Operação: troca de diretório local'');
+Memo_Relatorio_FTP.Lines.Add (''Diretório do arquivo: '' + GetCurrentDir);
+Memo_Relatorio_FTP.Lines.Add ('''');
+
+Nome_Arquivo := AnsiStrRScan(PCHar(Nome_Arquivo), ''\'');
+for contador := 2 To StrLen(PCHar(Nome_Arquivo)) do
+Auxiliar := Auxiliar + Nome_Arquivo [contador];
+Nome_Arquivo := Auxiliar;
+
+try
+Memo_Relatorio_FTP.Lines.Add(''Operação: Upload'');
+Memo_Relatorio_FTP.Lines.Add (''Arquivo local: '' + OpenDialog1.FileName);
+Memo_Relatorio_FTP.Lines.Add (''Gravado como: '' + Nome_Arquivo);
+
+f := TFileStream.Create(OpenDialog1.FileName,fmOpenRead);
+m := TMemoryStream.Create;
+m.CopyFrom(f,f.Size);
+m.Seek(0,0) ;
+t := GetTickCount;
+idFTP1.Put(m,Nome_Arquivo);
+
+Memo_Relatorio_FTP.Lines.Add(Format(''tempo %d milesegundos'',[GetTickCount - t]));
+Memo_Relatorio_FTP.Lines.Add(Format(''Tamanho %d bytes'',[m.Size]));
+Memo_Relatorio_FTP.Lines.Add('''');
+
+finally
+m.Free;
+f.Free;
+end;
+end;
+SetCurrentDir (Diretorio_Leitura);
+Memo_Relatorio_FTP.Lines.Add(''Operação: troca de diretorio local'');
+Memo_Relatorio_FTP.Lines.Add (''Diretório após a operação: '' + GetCurrentDir);
+Memo_Relatorio_FTP.Lines.Add ('''');
+
+
+
+
+
+end;
+
+
+
+procedure TForm1.Btn_DesconectarClick(Sender: TObject);
+begin
+try
+idFTP1.Disconnect;
+finally
+if idFTP1.Connected = False then
+Shape_Conectado.Brush.Color := clGray;
+
+Memo_Relatorio_FTP.Lines.Add(''Desconectado'');
+Memo_Relatorio_FTP.Lines.Add('''');
+
+Btn_Upload.Enabled := False;
+Btn_Desconectar.Enabled := False;
+Btn_Conectar.Enabled := True;
+end;
+end;
+
+end.
+

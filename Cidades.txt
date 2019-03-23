@@ -1,0 +1,1 @@
+http://www.calendario.com.br/api/cities.json

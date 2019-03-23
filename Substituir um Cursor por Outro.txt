@@ -1,0 +1,5 @@
+Screen.Cursors[crSQLWait] := crDefault;//Para de aparecer o Simbolo SQL
+
+Foi substituido o crSQLWait por crDefault;
+
+Para isso basta pegar no delphi o nome do cursor que deseja substituir (no caso crSQLWait).

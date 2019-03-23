@@ -1,0 +1,6 @@
+//Usar esta opção antes do "Query.Open"
+
+
+TFloatField( PRODUTOS.FieldByname( 'Estoque' ) ).DisplayFormat        := '#,##0.00' ;
+
+PRODUTOS.Open;

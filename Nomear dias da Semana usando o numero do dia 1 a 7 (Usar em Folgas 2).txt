@@ -1,0 +1,29 @@
+var
+  MyDate: TDateTime;
+begin
+  MyDate:=StrToDateTime(Edit1.Text);
+  case DayOfWeek(MyDate) of
+    1: Label2.Caption:='Domingo';
+    2: Label2.Caption:='Segunda';
+    3: Label2.Caption:='Terça';
+    4: Label2.Caption:='Quarta';
+    5: Label2.Caption:='Quinta';
+    6: Label2.Caption:='Sexta';
+    7: Label2.Caption:='Sábado';
+  end;
+
+--------------------------------------
+
+var
+  MyDate: TDateTime;
+begin
+  MyDate:=StrToDateTime(Edit1.Text);
+  case DayOfWeek(MyDate) of
+    1: Label2.Caption:='Sunday';
+    2: Label2.Caption:='Monday';
+    3: Label2.Caption:='Tuesday';
+    4: Label2.Caption:='Wednesday';
+    5: Label2.Caption:='Thursday';
+    6: Label2.Caption:='Friday';
+    7: Label2.Caption:='Saturday';
+  end;

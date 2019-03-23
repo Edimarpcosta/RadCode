@@ -1,0 +1,4 @@
+//uses ShellApi/
+Shellexecute(handle, 'open', pchar('o que vai abrir URL/Arquivo'), nil, nil, sw_shownormal);
+
+Shellexecute(handle, 'open', pchar('https://s3-sa-east-1.amazonaws.com/vetsmart-contents/ItemImages/' + PictureType + '/' + LowerCase(dbimage.Text)), nil, nil, sw_shownormal);

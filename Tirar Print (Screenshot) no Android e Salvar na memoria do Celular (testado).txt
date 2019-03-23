@@ -1,0 +1,73 @@
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function TfMenu.MakeScaleScreenshot(Sender: TControl): TBitmap;
+var
+  fScreenScale: Single;
+  function GetScreenScale: Single;
+  var
+    ScreenService: IFMXScreenService;
+  begin
+    Result := 1;
+    if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService,
+      IInterface(ScreenService)) then
+      begin
+        Result := ScreenService.GetScreenScale;
+      end;
+  end;
+
+begin
+  fScreenScale := GetScreenScale;
+  Result := TBitmap.Create(Round(Sender.Width * fScreenScale),
+    Round(Sender.Height * fScreenScale));
+  Result.Clear(0);
+  if Result.Canvas.BeginScene then
+    try
+      Sender.PaintTo(Result.Canvas, RectF(0, 0, Result.Width, Result.Height));
+    finally
+      Result.Canvas.EndScene;
+    end;
+end;
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//procedure TfMenu.actShareScreenExecute(Sender: TObject);
+var
+  B: TBitmap;
+  IntentWhats: JIntent;
+  Uri: Jnet_Uri;
+  texto: string;
+  AttachmentFile: JFile;
+begin
+  try
+    try
+
+      B := MakeScaleScreenshot(lytGeral);//Chama a função acima
+      // Img1.Bitmap.Assign(B);
+    finally
+      Application.ProcessMessages;
+      IntentWhats := TJIntent.JavaClass.init(TJIntent.JavaClass.ACTION_SEND);
+      IntentWhats.setPackage(StringToJString('com.whatsapp'));
+      // AttachmentFile := TJFile.JavaClass.init(StringToJString(system.IOUtils.TPath.Combine(system.IOUtils.TPath.GetShareddocumentsPath(), 'WhatApp.jpg')));
+      B.SaveToFile(TPath.Combine(TPath.GetShareddocumentsPath + PathDelim,
+        'ScreenShot.png'));
+      Sleep(500);
+      AttachmentFile := TJFile.JavaClass.init
+        (StringToJString(System.IOUtils.TPath.Combine
+        (System.IOUtils.TPath.GetShareddocumentsPath(), 'ScreenShot.png')));
+      Uri := TJnet_Uri.JavaClass.fromFile(AttachmentFile);
+      IntentWhats.putExtra(TJIntent.JavaClass.EXTRA_TEXT,
+        StringToJString(texto));
+      IntentWhats.setType(StringToJString('text/plain'));
+      IntentWhats.putExtra(TJIntent.JavaClass.EXTRA_STREAM,
+        TJParcelable.Wrap((Uri as ILocalObject).GetObjectID));
+      IntentWhats.setType(StringToJString('image/*'));
+      // Ou para arquivos de texto IntentWhats.setType(StringToJString('.txt text/plain'));
+      IntentWhats.addFlags(TJIntent.JavaClass.FLAG_GRANT_READ_URI_PERMISSION);
+      // Old SharedActivity.startActivity(IntentWhats);
+      TAndroidHelper.Activity.startActivity(IntentWhats);
+      Sleep(200);
+      B.DisposeOf;
+    end;
+  except
+    on E: Exception do
+      begin
+        ShowMessage(E.Message + sLineBreak + E.ClassName);
+      end;
+  end;

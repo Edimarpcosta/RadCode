@@ -1,0 +1,7 @@
+//uses
+//System.IOUtils
+procedure TFCEP.FD_DBBeforeConnect(Sender: TObject);
+begin
+  FDConnection1.Params.Values['Database'] := System.IOUtils.TPath.Combine
+    (System.IOUtils.TPath.GetDocumentsPath, 'CEPDB.db');
+end;

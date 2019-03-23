@@ -1,0 +1,37 @@
+ case StrToInt(Arc1.StartAngle.ToString) of
+    0:
+      Arc1.StartAngle := 20;
+    20:
+      Arc1.StartAngle := 40;
+    40:
+      Arc1.StartAngle := 60;
+    60:
+      Arc1.StartAngle := 80;
+    80:
+      Arc1.StartAngle := 100;
+    100:
+      Arc1.StartAngle := 120;
+    120:
+      Arc1.StartAngle := 140;
+    140:
+      Arc1.StartAngle := 160;
+    160:
+      Arc1.StartAngle := 180;
+    180:
+      Arc1.StartAngle := 200;
+    200:
+      Arc1.StartAngle := 220;
+    220:
+      Arc1.StartAngle := 240;
+    240:
+      Arc1.StartAngle := 260;
+    260:
+      Arc1.StartAngle := 280;
+    280:
+      Arc1.StartAngle := 300;
+    300:
+      Arc1.StartAngle := 320;
+    320:
+      Arc1.StartAngle := 0;
+
+  end;

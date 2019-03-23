@@ -1,0 +1,39 @@
+{ Private declarations }
+    procedure DeletarTodos(Caminho: string; extensao: string);
+//...
+
+procedure TForm3.DeletarTodos(Caminho, extensao: string);
+var
+  SR: TSearchRec;
+  I: integer;
+begin
+  I := FindFirst(Caminho+extensao, faAnyFile, SR);
+  while I = 0 do
+  begin
+    if (SR.Attr and faDirectory) <> faDirectory then
+      if not DeleteFile(Caminho + SR.Name) then
+        ShowMessage('Não foi possível excluir ' + Caminho + SR.Name);
+    I := FindNext(SR);
+  end;
+
+//Como usar  DeletarTodos(local+'captchas\','*.*');
+
+
+/////////////////////
+
+ou 
+
+procedure TForm1.Button2Click(Sender: TObject);
+var
+SR: TSearchRec;
+I: integer;
+begin
+I := FindFirst('c:\Delphi\*.*', faAnyFile, SR);
+while I = 0 do begin if (SR.Attr and faDirectory) <> faDirectory then
+if not DeleteFile('c:\Delphi\' + SR.Name) then ShowMessage(´Não foi possível excluir c:\Delphi\´ + SR.Name);
+I := FindNext(SR);
+end;
+end;
+
+// Os arquivos excluídos com esta rotina não vão para a lixeira!
+

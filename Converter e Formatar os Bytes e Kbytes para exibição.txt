@@ -1,0 +1,18 @@
+//Converter e Formatar os Bytes e Kbytes para exibição
+Uses Math;
+
+function TFmenu.ConvertBytes(Bytes: Int64): string;
+  const
+  Description: Array [0 .. 8] of string = ('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+var
+  i: Integer;
+begin
+  i := 0;
+
+  while Bytes > Power(1024, i + 1) do
+    Inc(i);
+
+  Result := FormatFloat('###0.##', Bytes / IntPower(1024, i)) + ' ' + Description[i];
+end;
+
+// https://stackoverflow.com/questions/30548940/correct-way-to-convert-size-in-bytes-to-kb-mb-gb-delphi/30549584

@@ -1,0 +1,41 @@
+Adicionar dados a Área de Transferência através do Delphi
+Olá pessoal, postarei um simples exemplo de como copiar o conteudo de um edit e jogá-lo para a Área de Transferência.
+
+Para isso, devemos declarar no uses a unit ClipBrd.
+
+Vamos ao exemplo:
+
+Colocando o conteúdo de um edit na Área de Transferência
+
+Clipboard.asText := Edit1.Text;
+
+Colocando o conteúdo da Área de Transferência em um edit
+
+edit1.Text := Clipboar.asText;
+
+obs.:  antes de colocar o conteúdo da Área de Transferência em um edit, verifique se o conteúdo é um texto, para isso use:
+
+if Clipboard.HasFormat(CF_TEXT) then
+
+isto irá verificar se o conteúdo da Área de Transferência é um texto.
+
+Espero ter ajudado, até a próxima.
+
+
+--------------------------------
+
+procedure TFMenu.Timer1ClipBoardTimer(Sender: TObject);
+var s:string;
+begin
+  try
+    if Clipboard.HasFormat(CF_TEXT) then
+    begin
+      s := Clipboard.AsText;
+    end;
+  finally
+    if Memo1.Lines.IndexOf(s) = -1 then //Se o texto não existir, retorna -1
+    begin
+      Memo1.Lines.Add(s)
+    end;
+  end;
+end;

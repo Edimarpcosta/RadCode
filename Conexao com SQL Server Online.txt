@@ -1,0 +1,1 @@
+Provider=SQLNCLI11.1;Password=abdr;Persist Security Info=True;User ID=sa;Initial Catalog=Mane;Data Source=191.255.216.170\SQLExpress;Auto Translate=True;Network Library=DBMSSOCN;

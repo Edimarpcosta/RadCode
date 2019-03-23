@@ -1,0 +1,38 @@
+// Uses: IdHTTP, IdBaseComponent, IdComponent, IdTCPConnection, IdTCPClient; 
+
+function CheckFileOnlineExists(const OnlineFile: string; var Size: Int64): Boolean;
+var
+ IdHttp: TIdHTTP;
+begin
+try
+  IdHttp := TIdHTTP.Create(nil);
+  try
+    IdHttp.Head(OnlineFile);
+    Size := IdHttp.Response.ContentLength;
+    if Size > 0 then
+      Result := True
+    else
+      Result := False;
+  except on E: EIdHTTPProtocolException do begin
+    // Fazer algo aqui caso você queira tratar alguma exceção do IdHttp
+  end;
+  end;
+finally
+  IdHttp.Free;
+end;
+end;
+
+//Chamar
+
+Const
+ LINK = 'http://cdn.sstatic.net/br/img/apple-touch-icon.png?v=3958fdf06794';
+Var
+ FileStatus: Boolean;
+ FileSize: Int64;
+begin
+ FileStatus := CheckFileOnlineExists(LINK, FileSize);
+
+ if FileStatus then
+   ShowMessage(Format('Arquivo existente! Tamanho em bytes %d.', [FileSize]))
+ else
+   ShowMessage('Esse arquivo não existe!');

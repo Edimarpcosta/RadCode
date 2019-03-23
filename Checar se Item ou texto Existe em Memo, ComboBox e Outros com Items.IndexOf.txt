@@ -1,0 +1,24 @@
+Sintaxe:
+If Componente.Items.IndexOf(Texto)=-1 Then Begin
+
+ShowMessage('O texto não existe no componente');
+end else begin
+
+ShowMessage('Texto encontrado no componente');
+
+
+procedure TFMenu.tmrClipBoardTimer(Sender: TObject);
+var s:string;
+begin
+  try
+    if Clipboard.HasFormat(CF_TEXT) then
+    begin
+      s := Clipboard.AsText;
+    end;
+  finally
+    if Memo1.Lines.IndexOf(s) = -1 then //Se o texto não existir, retorna -1
+    begin
+      Memo1.Lines.Add(s);
+    end;
+  end;
+end;

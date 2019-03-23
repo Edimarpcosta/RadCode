@@ -1,0 +1,266 @@
+http://www.planetadelphi.com.br/dica/7486/-upload-com-idftp/progressbar-e-thread-
+
+Upload com idFTP ProgressBar e Thread
+
+Delphi: versão 7.
+OS: Windows 7 32 bits (funciona em outras versões 32bits).
+Descrição: Fazer upload de arquivo com o componente TIdFTP, mostrando o progresso com TProgressBar utilizando uma Thread.
+
+Observação: Não vou explorar conceitos ou onde ficam os componentes.
+
+
+1. Adicionando Componentes e preparando a parte visual
+
+1.1. File -> New -> Application.
+
+1.2. Adicione os seguintes componentes: 3 TGroupBox, 3 TLabel, 1 TEdit, 4 TButton, 1 TProgressBar e 1 TIdFTP.
+
+Altere as respectivas propriedades de tal forma que fique algo em torno disto:
+
+http://img251.imageshack.us/img251/5988/formupload.png
+
+Observação: O conteúdo do TEdit será outro, é nele que ficará contido o caminho para o arquivo com o nome do arquivo e sua extensão.
+
+1.3. Dê um clique sobre o componente TIdFTP vá até properties e configure as propriedades, Host com o ip endereço do seu ftp, Password com a senha e Username com seu login de acesso.
+
+1.4. Dê um clique sobre o Button2(Parar), segure a tecla shift e selecione também Button3(Continuar) e Button4(Cancelar), vá até properties, propriedade Enabled e selecione a opção False.
+
+Observação: Salve o Projeto.
+
+
+2. Codificando a Thread responsável pelo upload
+
+2.1. File -> New -> Other , Selecione Thread Object. Na janela New Thread Object no campo Class Name digite: TUpload. Dê OK.
+
+2.2. Será iniciada uma nova Unit(2) com o esqueleto padrão de uma Thread. Apague os comentários.
+
+2.3. Adicione em uses as seguintes Units: IdFTP, StdCtrls, SysUtils e Dialogs.
+
+2.4. Em private adicione duas variáveis, CFTP e CEdit e logo após a procedure Execute, uma nova procedure de nome FazUpload:
+
+{...}
+type
+  TUpload = class(TThread)
+  private
+   CFTP : TidFTP;
+   CEdit : TEdit;
+  protected
+    procedure Execute; override;
+    procedure FazUpload;
+{...}
+
+A variável CFTP será a responsável pelo upload do arquivo, que será acionada no procedimento FazUpload.
+
+CEdit utilizado para obter o nome do arquivo e seu local físico necessário para a utilização do Put, procedimento do TIdFTP.
+
+Portanto, o procedimento FazUpload é quem conterá o código que fará a conexão e upload do arquivo indicado no TEdit no Form1.
+
+2.5. Após a seção protected, declare uma nova seção, public, e indique o constructor:
+
+{...}
+ protected
+    procedure Execute; override;
+    procedure FazUpload;
+  public
+   constructor Criar(ftp : Tidftp; edit : tedit);
+  end;
+{...}
+
+Iremos sobrepor a já existente classe TThread com o nosso constructor. Note que indicamos que manipularemos os componentes TIdFTP e TEdit.
+
+2.6. Neste ponto dê Ctrl + Shift + C para que sejam declarados os procedimentos na Unit(2).
+
+Observação: Salve o Projeto.
+
+2.7. Ao procedimento criado para o constructor adicione o seguinte código:
+
+{...}
+constructor TUpload.Criar(ftp: Tidftp; edit: tedit);
+begin
+inherited Create(True);
+FreeOnTerminate := True;
+CFTP := ftp;
+CEdit := edit;
+Resume;
+end;
+{...}
+
+Primeiro herdamos o create com o inherited e dizemos que a thread será criada em modo suspenso (True).
+
+Por seguinte, dizemos que ao terminar a execução da thread está deverá ser liberada da memória.
+
+Definimos as variáveis, as quais serão utilizadas com os componentes do Form1 para chamar e fazer o procedimento da Upload(FazUpload). Com isso poderemos utilizar os componentes necessários para fazer um upload sem cria-los diretamente na Thread, o que é possível também, mas um pouco mais trabalhoso o que não é nosso objetivo, queremos facilitar.
+
+Por último utilizamos resume para dar continuidade a execução da thread.
+
+2.8. Para o procedimento execute adicione o seguinte código:
+
+{...}
+procedure TUpload.Execute;
+begin
+ If (Not Terminated) Then
+  FazUpload;
+end;
+{...}
+
+Dizemos ao procedimento execute, responsável direto pela execução da Thread, que se não terminarmos a thread execute o procedimento FazUpload.
+
+2.9. Para o procedimento FazUpload, adicione o seguinte código:
+
+{...}
+procedure TUpload.FazUpload;
+begin
+ With CFTP Do
+  Begin
+   Try
+    If not Connected Then
+     Connect;
+   except
+    On E : Exception do
+     Begin
+      ShowMessage('Não conectou : ' + E.Message);
+      Exit;
+     End;
+   end;
+   Try
+    Try
+     Put(CEdit.Text, ExtractFileName(CEdit.Text));
+    except
+     on E : Exception do
+      ShowMessage('Erro ao fazer Upload: ' + E.Message);
+    end;
+   Finally
+    Quit;
+   End;
+  End;
+end;
+{...}
+
+De início, tentamos conectar ao ftp (que foi configurado no componente idFTP1 no Form1 - Item 1.3.), se conectou, enviamos o arquivo para o servidor com Put(CEdit.Text, ExtractFileName(CEdit.Text)); (CEdit.text será o caminho, arquivo e extensão indicados no Edit1 do Form1), e por último utilizamos quit para sair do servidor ftp.
+
+Muito importante que se faça o tratamento das exceções, como no exemplo acima, para que não haja problemas futuros com o cliente.
+
+Observação: Salve o Projeto. Terminamos a thread, precimos chama-la na Unit(1) agora.
+
+
+3. Codificando o Form1
+
+3.1. Clique sobre a aba Unit1, vá em File -> Use Unit -> Selecione Unit2 e dê OK.
+
+3.2. Vá ao editor, com a Unit1 seleciona a após a seção uses Unit2 declare a variável ThreadUpload.
+
+{...}
+implementation
+
+uses Unit2;
+
+var
+ThreadUpload : TUpload;
+
+{$R *.dfm}
+{...}
+
+Necessária a declaração desta variável para termos referência a thread que está na outra Unit(2). Caso contrário não será possível executa-la.
+
+3.3. Configurando os botões
+
+3.3.1. Duplo clique sobre o Button1 (Iniciar) para acessar o evento OnClick, adicione:
+
+{...}
+ThreadUpload := Tupload.Criar(idFTP1, Edit1);
+Button1.Enabled := False;
+Button2.Enabled := True;
+Button4.Enabled := True;
+{...}
+
+Perceba a referência aos compoente idFTP1 e Edit1. Eles serão os responsáveis pelo preenchimento das funcionalidades/dados necessários para o funcionamento da thread.
+
+3.3.2. Duplo clique sobre o Button2 (Parar), adicione:
+
+{...}
+ThreadUpload.Suspend;
+Button2.Enabled := False;
+Button3.Enabled := True;
+{...}
+
+Utlizamos o comando Suspend para literalmente suspender a execução da thread.
+
+3.3.3. Duplo clique sobre o Button3 (Continuar), adicione:
+
+{...}
+ThreadUpload.Resume;
+Button2.Enabled := True;
+Button3.Enabled := False;
+{...}
+
+Utilizamos o comando resume para dar continuidade a execução da thread.
+
+3.3.4. Duplo clique sobre o Button4 (Cancelar), adicione:
+
+{...}
+ThreadUpload.Suspend;
+idFTP1.Abort;
+ThreadUpload.Terminate;
+IdFTP1.Quit;
+Button4.Enabled := False;
+Button2.Enabled := False;
+Button3.Enabled := False;
+Button1.Enabled := True;
+ProgressBar1.Position := 0;
+Label2.Caption := 'Upload Cancelado!';
+{...}
+
+Suspendemos a execução da thread, paramos o upload (Abort), terminamos a thread e saimos do ftp.
+
+3.4. Faremos agora a parte responsável pela demonstração do progresso do upload. Clique sobre o componente idFTP1, vá em events (Object Inspector), duplo clique para:
+
+    * OnStatus, adicione:
+      Código:
+
+      {...}
+      Label3.Caption := 'Outras informações: ' + AStatusText;
+      {...}
+
+    * OnWork, adicione:
+      Código:
+
+      {...}
+      Var
+      Transferido : Integer;
+      begin
+      Transferido := AWorkCount div 1024;
+      Label2.Caption := 'Transferido: ' + IntToStr(Transferido) + '/kb.';
+      ProgressBar1.Position := AWorkCount;
+      end;
+      {...}
+
+    * OnWorkBegin, adicione:
+      Código:
+
+      {...}
+      ProgressBar1.Position := 0;
+      ProgressBar1.Max := AWorkCountMax;
+      {...}
+
+    * OnWorkEnd, adicione:
+      Código:
+
+      {...}
+      ProgressBar1.Position := ProgressBar1.Max;
+      Label2.Caption := 'Upload Concluído!';
+      Button1.Enabled := True;
+      Button2.Enabled := False;
+      Button3.Enabled := False;
+      Button4.Enabled := False;
+      ThreadUpload.Terminate;
+      {...}
+
+
+4. Considerações Finais
+
+Por fim, este código pode ser utilizado tanto para upload como download, pode ser utilizado com outros componentes, etc.. basta adaptar.
+
+Importante dizer que não utilizei o método synchronize no procedimento de execução da thread, pois este trata-se de um erro comum, veja, se "sincronizo" o procedimento FazUpload, digo para que o upload seja processado pela thread principal do programa, o que geraria um congelamento do aplicativo como é comum nas dúvidas que vejo no Google em outros fóruns. Portanto, este tutorial é exclusivo do forum-invaders.
+
+Abraço,
+Júlio César Schincariol Filho

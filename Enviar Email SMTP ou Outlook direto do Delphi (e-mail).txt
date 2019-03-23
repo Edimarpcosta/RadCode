@@ -1,0 +1,137 @@
+{ Este exemplo foi baixado no site www.andrecelestino.com
+  Passe por lá a qualquer momento para conferir os novos artigos! :)
+  contato@andrecelestino.com }
+
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, IdIOHandler, IdIOHandlerSocket, IdSSLOpenSSL, IdComponent,
+  IdTCPConnection, IdTCPClient, IdMessageClient, IdSMTP, IdBaseComponent,
+  IdMessage, StdCtrls, Buttons, ExtCtrls, ComObj, IdExplicitTLSClientServerBase,
+  IdSMTPBase, IdServerIOHandler, IdSSL, IdIOHandlerStack;
+
+type
+  TFrmEnviarEmail = class(TForm)
+    BitBtn1: TBitBtn;
+    Label1: TLabel;
+    IdMessage1: TIdMessage;
+    IdSMTP1: TIdSMTP;
+    RadioGroup1: TRadioGroup;
+    IdSSLIOHandlerSocket1: TIdSSLIOHandlerSocketOpenSSL;
+    Memo1: TMemo;
+    procedure BitBtn1Click(Sender: TObject);
+  private
+    procedure EnviarEmailPeloOutlook;
+    procedure EnviarEmailPeloGmail;
+  end;
+
+var
+  FrmEnviarEmail: TFrmEnviarEmail;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmEnviarEmail.BitBtn1Click(Sender: TObject);
+begin
+  case RadioGroup1.ItemIndex of
+    0:
+      EnviarEmailPeloOutlook;
+    1:
+      EnviarEmailPeloGmail;
+  end;
+end;
+
+procedure TFrmEnviarEmail.EnviarEmailPeloGmail;
+begin
+  // Configuração do SSL
+  IdSSLIOHandlerSocket1.SSLOptions.Method := sslvSSLv23;
+  IdSSLIOHandlerSocket1.SSLOptions.Mode := sslmClient;
+
+  // Configuração do SMTP
+  // IdSMTP1.AuthType:=atLogin;
+  IdSMTP1.Port := 465;
+  IdSMTP1.Host := 'smtp.gmail.com';
+  IdSMTP1.Username := 'usuario';
+  IdSMTP1.Password := 'senha';
+
+  // Tentativa de conexão e autenticação
+  try
+     IdSMTP1.Connect;
+     Memo1.Lines.Add('Conectando...');
+  except
+    Memo1.Lines.Add('Erro na conexão...');
+  end;
+  //
+  try
+    IdSMTP1.Authenticate;
+  finally;
+    Memo1.Lines.Add('Port: ' + IntToStr(IdSMTP1.Port));
+    Memo1.Lines.Add('Host: ' + IdSMTP1.Host);
+    Memo1.Lines.Add('User: ' + IdSMTP1.Username);
+    Memo1.Lines.Add('Pass: ' + IdSMTP1.Password);
+    Memo1.Lines.Add('Autenticado...');
+    Memo1.Lines.Add('');
+  end;
+
+  // Configuração da mensagem
+  IdMessage1.From.Address := 'meuemail@gmail.com';
+  IdMessage1.From.Name := 'Eu';
+  IdMessage1.ReplyTo.EMailAddresses := IdMessage1.From.Address;
+  IdMessage1.Recipients.Clear;
+  IdMessage1.Recipients.EMailAddresses := 'destinatario@email.com';
+  IdMessage1.Subject := 'Assunto do e-mail';
+  IdMessage1.ContentType := 'text/html';
+  IdMessage1.Body.Text := 'Corpo do e-mail';
+
+  // caso queira enviar um HTML, utilize a linha abaixo:
+  // IdMessage1.Body.LoadFromFile('C:\Arquivo.html');
+
+  // Envio da mensagem
+  IdMessage1.From.Address := 'meuemail@gmail.com';
+
+  //
+  IdSMTP1.Send(IdMessage1);
+  Memo1.Lines.Add('');
+  Memo1.Lines.Add(IdMessage1.From.Address);
+  Memo1.Lines.Add(IdMessage1.From.Name);
+  Memo1.Lines.Add(IdMessage1.ReplyTo.EMailAddresses);
+  Memo1.Lines.Add(IdMessage1.Recipients.EMailAddresses);
+  Memo1.Lines.Add(IdMessage1.Subject);
+  Memo1.Lines.Add(IdMessage1.ContentType);
+  Memo1.Lines.Add(IdMessage1.Body.Text);
+  MessageDlg('Mensagem enviada com sucesso.', mtInformation, [mbOK], 0);
+end;
+
+procedure TFrmEnviarEmail.EnviarEmailPeloOutlook;
+var
+  Outlook: OleVariant;
+  vMailItem: variant;
+const
+  olMailItem = 0;
+begin
+  try
+    Outlook := GetActiveOleObject('Outlook.Application');
+  except
+    Outlook := CreateOleObject('Outlook.Application');
+  end;
+
+  vMailItem := Outlook.CreateItem(olMailItem);
+  vMailItem.Subject := 'Assunto do e-mail';
+  vMailItem.Body := 'Corpo do e-mail';
+
+  // para adicionar um destinatário, utilize a linha abaixo
+  // vMailItem.Recipients.Add('destinatario@email.com');
+
+  // para enviar um anexo, utilize a linha abaixo
+  // vMailItem.Attachments.Add('C:\Anexo.txt');
+
+  vMailItem.GetInspector.Activate;
+  vMailItem.Display(True);
+  VarClear(Outlook);
+end;
+
+end.

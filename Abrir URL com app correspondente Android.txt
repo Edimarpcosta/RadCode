@@ -1,0 +1,18 @@
+//Declare em uses 
+uses
+  Androidapi.Helpers, FMX.Helpers.Android, Androidapi.JNI.App, Androidapi.JNI.Net,
+  Androidapi.JNI.JavaTypes, Androidapi.JNI.GraphicsContentViewText;
+
+var
+ myURL, BaseUrl: string;
+  Intent: JIntent;
+begin
+  BaseUrl := 'http://api.whatsapp.com/send?phone=';
+  myURL := BaseUrl + '5519987461015';
+  //
+  Intent := TJIntent.Create;
+  Intent.setAction(TJIntent.JavaClass.ACTION_VIEW);
+  Intent.setData(StrToJURI(myURL));
+  TAndroidHelper.Activity.startActivity(Intent);
+   //
+end;

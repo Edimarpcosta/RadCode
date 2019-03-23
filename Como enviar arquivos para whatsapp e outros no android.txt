@@ -1,0 +1,36 @@
+var
+  IntentWhats: JIntent;
+  Uri: Jnet_Uri;
+  texto: string;
+  AttachmentFile: JFile;
+  spath: string;
+  FileUri: JParcelable;
+begin
+  spath := TPath.GetSharedDownloadsPath + PathDelim + cbbPrecos.Selected.Text
+    + '.xlsx';
+  if FileExists(spath) then
+    begin
+
+      try
+        texto := spath;
+        IntentWhats := TJIntent.Create;
+        IntentWhats := TJIntent.JavaClass.init(TJIntent.JavaClass.ACTION_SEND);
+        // sPath := System.IOUtils.TPath.Combine(System.IOUtils.TPath.GetShareddocumentsPath(), 'PricesOut.txt');
+        FileUri := JParcelable
+          (TJnet_Uri.JavaClass.fromFile(TJFile.JavaClass.init
+          (StringToJString(spath))));
+        IntentWhats.putExtra(TJIntent.JavaClass.EXTRA_STREAM, FileUri);
+        IntentWhats.setType(StringToJString('text/plain'));
+        //
+        IntentWhats.addFlags(TJIntent.JavaClass.FLAG_GRANT_READ_URI_PERMISSION);
+        TAndroidHelper.Activity.startActivity(IntentWhats);
+        Application.ProcessMessages;
+      finally
+        // ShowMessage('Fim');
+        // Delete
+      end;
+    end
+  else
+    begin
+      ShowMessage('O arquivo não existe em: ' + sLineBreak + spath);
+    end;

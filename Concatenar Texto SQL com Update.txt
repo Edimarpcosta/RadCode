@@ -1,0 +1,8 @@
+Update ZCDDRUGCOMPANY 
+
+SET   ZSHOWROOMLOGOURL = 'Logo' || ZDRUGCOMPANYNAME ||  '.png'
+
+Where ZSHOWROOMLOGOURL = ''
+
+Ex:
+A saida será = LogoPremierPet.png

@@ -1,0 +1,25 @@
+{  cID        := TrataCEP(TJson.Format(RESTResponse.JSONValue),'id');
+  SourceFile := 'http://graph.facebook.com/'+cID+'/picture?height=350&width=250';
+  //'http://i0.wp.com/www.sharpplay.com/wp-content/uploads/2016/06/wipe_ffs.jpg';
+
+  cFolder    := System.IOUtils.TPath.GetDocumentsPath;
+  DestFile   := cFolder+PathDelim+'profilepic.jpg';
+
+  try
+      MS.Clear;
+      try
+        IdHTTP1.Request.Accept := 'text/html, */*';
+        IdHTTP1.Request.UserAgent := 'Mozilla/3.0 (compatible; IndyLibrary)';
+        IdHTTP1.Request.ContentType := 'application/x-www-form-urlencoded';
+        IdHTTP1.HandleRedirects := True;
+        IdHTTP1.Get(SourceFile, MS);
+      except
+        //on E:Exception do
+        //showmessage(E.Message);
+      end;
+      MS.Position := 0;
+      MS.SaveToFile(DestFile);
+      Application.ProcessMessages;
+  finally
+      MS.Free;
+  end;

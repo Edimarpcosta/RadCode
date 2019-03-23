@@ -1,0 +1,1 @@
+EdtVencimento1.Text := FormatDateTime( 'DD/MM/YYYY', Date() + 28 ) ;

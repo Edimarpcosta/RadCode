@@ -1,0 +1,20 @@
+ --Checar se a tabela existe
+
+SELECT EXISTS (SELECT 1 FROM sqlite_master WHERE name = 'SuaTabela') AS "EXISTE"
+
+
+--------------------------------------------------------------------------------------------------------
+
+--Checar se o campo existe na tabela
+
+SELECT EXISTS (SELECT 1 FROM sqlite_master WHERE name = 'SuaTabela' AND sql like '%SeuCampo%') as "EXISTE"
+
+--------
+|EXISTE|
+--------
+|  1   |
+--------
+
+
+--Se a tabela e/ou o campo existirem retorna 1, senão retorna 0.
+

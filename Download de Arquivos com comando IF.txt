@@ -1,0 +1,27 @@
+{Private}
+function DownloadFile(SourceFile, DestFile: string): Boolean;
+
+
+function TFMeu.DownloadFile(SourceFile, DestFile: string): Boolean;
+begin
+  try
+    Result := UrlDownloadToFile(nil, PChar(SourceFile), PChar(DestFile), 0, nil) = 0;
+  except
+    Result := False;
+  end;
+end;
+
+
+///Exemplos uso:
+
+
+DeleteUrlCacheEntry(PWideChar(URL));
+DownloadFile(URL, local + 'Temp\Marca.jpg');
+
+
+//
+DeleteUrlCacheEntry(PWideChar(URL));
+ if    DownloadFile(URL, local + 'Temp\Marca.jpg'); then 
+
+begin Showmessage('Download Concluido');
+end;

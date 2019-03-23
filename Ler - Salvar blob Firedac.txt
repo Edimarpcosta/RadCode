@@ -1,0 +1,51 @@
+
+procedure SaveToFireDACBlob;
+var
+MemStream: TMemoryStream;
+begin
+FireDAC.Connected := True;
+MemStream := TMemoryStream.Create;
+try
+Image1.Bitmap.SaveToStream(MemStream);
+MemStream.Seek(0,0);
+FDQueryInsert.ParamByName('Media').LoadFromStream(MemStream,ftBlob);
+FDQueryInsert.ParamByName('MType').AsString := '0';
+FDQueryInsert.ExecSQL();
+except
+on e: Exception do
+begin
+//ShowMessage(e.Message);
+end;
+end;
+MemStream.Free;
+FireDAC.Connected := False;
+end;
+ 
+procedure LoadFromFireDACBlob;
+var
+BlobStream: TStream;
+begin
+FireDAC.Connected := True;
+try
+FDQuerySelect.Open;
+FDQuerySelect.First;
+while(not FDQuerySelect.EOF)do begin
+// access a stream from a blob like this
+BlobStream := FDQuerySelect.CreateBlobStream(FDQuerySelect.FieldByName('Media'),TBlobStreamMode.bmRead);
+// access a string from a field like this
+if (FDQuerySelect.FieldByName('MType').AsString='0') then
+begin
+// load your blob stream data into a control
+ImageViewer.Bitmap.LoadFromStream(BlobStream);
+end;
+BlobStream.Free;
+FDQuerySelect.Next;
+end;
+except
+on e: Exception do
+begin
+//ShowMessage(e.Message);
+end;
+end;
+FireDAC.Connected := False;
+end;

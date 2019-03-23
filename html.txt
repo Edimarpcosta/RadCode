@@ -1,0 +1,18 @@
+uses
+   FMX.Helpers.Android, Androidapi.JNI.Net, Androidapi.JNI.GraphicsContentViewText;
+
+function OpenURL (const AUrl: string): boolean;
+var
+   Uri: Jnet_Uri;
+   OpenLinkIntent: JIntent;
+begin
+   Uri: = StrToJURI (AUrl);
+   // Forme a intenção de abrir um link Uri em um navegador padrão
+   OpenLinkIntent: = TJIntent.JavaClass.init (TJIntent.JavaClass.ACTION_VIEW, Uri);
+   // Defina o tipo de dados
+   OpenLinkIntent.setType (StringToJString ('text / html'));
+   // Defina a categoria de ativação, que abrirá nossa página.
+   OpenLinkIntent.addCategory (TJIntent.JavaClass.CATEGORY_BROWSABLE);
+   // Execute o aplicativo e dê a nossa intenção
+   SharedActivity.startActivity (OpenLinkIntent);
+end;

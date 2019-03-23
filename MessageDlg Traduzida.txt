@@ -1,0 +1,51 @@
+//function Dc_MessageDlg(Msg: string; AType: TMsgDlgType; AButtons: TMsgDlgButtons; IndiceHelp: LongInt; DefButton: TMOdalResult; Portugues: Boolean): Word;
+function TfServer.Dc_MessageDlg(Msg: string; AType: TMsgDlgType; AButtons: TMsgDlgButtons; IndiceHelp: LongInt; DefButton: TMOdalResult; Portugues: Boolean): Word;
+var
+  I: Integer;
+  Mensagem: TForm;
+begin
+  Mensagem := CreateMessageDialog(Msg, AType, AButtons);
+  Mensagem.HelpContext := IndiceHelp;
+  with Mensagem do
+  begin
+    for I := 0 to ComponentCount - 1 do
+    begin
+      if (Components[I] is TButton) then
+      begin
+        if (TButton(Components[I]).ModalResult = DefButton) then
+        begin
+          ActiveControl := TWincontrol(Components[I]);
+        end;
+      end;
+    end;
+    if Portugues then
+    begin
+      if AType = mtConfirmation then
+        Caption := 'Confirmação'
+      else if AType = mtWarning then
+        Caption := 'Aviso'
+      else if AType = mtError then
+        Caption := 'Erro'
+      else if AType = mtInformation then
+        Caption := 'Informação';
+    end;
+  end;
+  if Portugues then
+  begin
+    TButton(Mensagem.FindComponent('YES')).Caption := '&Sim';
+    TButton(Mensagem.FindComponent('NO')).Caption := '&Não';
+    TButton(Mensagem.FindComponent('CANCEL')).Caption := '&Cancelar';
+    TButton(Mensagem.FindComponent('ABORT')).Caption := '&Abortar';
+    TButton(Mensagem.FindComponent('RETRY')).Caption := '&Repetir';
+    TButton(Mensagem.FindComponent('IGNORE')).Caption := '&Ignorar';
+    TButton(Mensagem.FindComponent('ALL')).Caption := '&Todos';
+    TButton(Mensagem.FindComponent('HELP')).Caption := 'A&juda';
+    TButton(Mensagem.FindComponent('NONE')).Caption := '&Nenhum';
+    TButton(Mensagem.FindComponent('CLOSE')).Caption := '&Fechar';
+    TButton(Mensagem.FindComponent('NOTOALL')).Caption := 'Não &para Todos';
+   TButton(Mensagem.FindComponent('YESTOALL')).Caption := 'Sim para &Todos';
+  end;
+  Result := Mensagem.ShowModal;
+  Mensagem.Free;
+
+end;

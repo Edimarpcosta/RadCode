@@ -1,0 +1,4 @@
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+WebBrowser1.Silent := True;
+end;

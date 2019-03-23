@@ -1,0 +1,155 @@
+var
+  time1, time2: TTime;
+  date1, date2: TDate;
+ 
+procedure TMainForm.btCompareDateClick(Sender: TObject);
+begin
+  { Compare the two dates }
+  Memo1.Lines.Clear;
+  date1 := StrToDate(edDate1.Text);
+  date2 := StrToDate(edDate2.Text);
+  Memo1.Lines.Add(IntToStr(CompareDate(date1, date2)));
+  Memo1.Lines.Add('Day span: '+ FloatToStr(DaySpan(date1, date2)));
+  Memo1.Lines.Add('Days between: '+ FloatToStr(DaysBetween(date1, date2)));
+  Memo1.Lines.Add('Week span: '+ FloatToStr(WeekSpan(date1, date2)));
+  Memo1.Lines.Add('Weeks between: '+ FloatToStr(WeeksBetween(date1, date2)));
+  Memo1.Lines.Add('Month span: '+ FloatToStr(MonthSpan(date1, date2)));
+  Memo1.Lines.Add('Months between: '+ FloatToStr(MonthsBetween(date1, date2)));
+  Memo1.Lines.Add('Year span: '+ FloatToStr(YearSpan(date1, date2)));
+  Memo1.Lines.Add('Years between: '+ FloatToStr(YearsBetween(date1, date2)));
+end;
+ 
+procedure TMainForm.btCompareTimeClick(Sender: TObject);
+begin
+  { Compare the two times }
+  Memo1.Lines.Clear;
+  time1 := StrToTime(edTime1.Text);
+  time2 := StrToTime(edTime2.Text);
+  Memo1.Lines.Add(IntToStr(CompareTime(time1, time2)));
+  Memo1.Lines.Add('Hour span: '+ FloatToStr(HourSpan(time1, time2)));
+  Memo1.Lines.Add('Hours between: '+ FloatToStr(HoursBetween(time1, time2)));
+  Memo1.Lines.Add('Minute span: '+ FloatToStr(MinuteSpan(time1, time2)));
+  Memo1.Lines.Add('Minutes between: '+ FloatToStr(MinutesBetween(time1, time2)));
+  Memo1.Lines.Add('Second span: '+ FloatToStr(SecondSpan(time1, time2)));
+  Memo1.Lines.Add('Seconds between: '+ FloatToStr(SecondsBetween(time1, time2)));
+  Memo1.Lines.Add('Millisecond span: '+ FloatToStr(MilliSecondSpan(time1, time2)));
+  Memo1.Lines.Add('Milliseconds between: '+ FloatToStr(MilliSecondsBetween(time1, time2)));
+end;
+ 
+procedure TMainForm.btGetDateInfoClick(Sender: TObject);
+begin
+  { Write information about the date }
+  Memo1.Lines.Clear;
+  date1 := StrToDate(edDate1.Text);
+  Memo1.Lines.Add('Day in week: ' + IntToStr(DayOfTheWeek(date1)));
+  Memo1.Lines.Add('Day in month: ' + IntToStr(DayOfTheMonth(date1)));
+  Memo1.Lines.Add('Day in year: ' + IntToStr(DayOfTheYear(date1)));
+  Memo1.Lines.Add('Week of the date: ' + IntToStr(WeekOf(date1)));
+  Memo1.Lines.Add('Week in month: ' + IntToStr(WeekOfTheMonth(date1)));
+  Memo1.Lines.Add('Week in year: ' + IntToStr(WeekOfTheYear(date1)));
+  Memo1.Lines.Add('Month in year: ' + IntToStr(MonthOfTheYear(date1)));
+end;
+ 
+procedure TMainForm.btGetTimeInfoClick(Sender: TObject);
+begin
+  { Write information about the time }
+  Memo1.Lines.Clear;
+  time1 := StrToTime(edTime1.Text);
+  Memo1.Lines.Add('Millisecond of the second: ' +
+    IntToStr(MilliSecondOfTheSecond(time1)));
+  Memo1.Lines.Add('Millisecond of the minute: ' +
+    IntToStr(MilliSecondOfTheMinute(time1)));
+  Memo1.Lines.Add('Millisecond of the hour: ' +
+    IntToStr(MilliSecondOfTheHour(time1)));
+  Memo1.Lines.Add('Millisecond of the day: ' +
+    IntToStr(MilliSecondOfTheDay(time1)));
+  Memo1.Lines.Add('Millisecond of the month: ' +
+    IntToStr(MilliSecondOfTheMonth(time1)));
+  Memo1.Lines.Add('Millisecond of the year: ' +
+    IntToStr(MilliSecondOfTheYear(time1)));
+  Memo1.Lines.Add('Second of the minute: ' +
+    IntToStr(SecondOfTheMinute(time1)));
+  Memo1.Lines.Add('Second of the hour: ' +
+    IntToStr(SecondOfTheHour(time1)));
+  Memo1.Lines.Add('Second of the day: ' +
+    IntToStr(SecondOfTheDay(time1)));
+  Memo1.Lines.Add('Second of the month: ' +
+    IntToStr(SecondOfTheMonth(time1)));
+  Memo1.Lines.Add('Second of the year: ' +
+    IntToStr(SecondOfTheYear(time1)));
+  Memo1.Lines.Add('Minute of the hour: ' +
+    IntToStr(MinuteOfTheHour(time1)));
+  Memo1.Lines.Add('Minute of the day: ' +
+    IntToStr(MinuteOfTheDay(time1)));
+  Memo1.Lines.Add('Minute of the month: ' +
+    IntToStr(MinuteOfTheMonth(time1)));
+  Memo1.Lines.Add('Minute of the Year: ' +
+    IntToStr(MinuteOfTheYear(time1)));
+  Memo1.Lines.Add('Hour of the day: ' +
+    IntToStr(HourOfTheDay(time1)));
+  Memo1.Lines.Add('Hour of the month: ' +
+    IntToStr(HourOfTheMonth(time1)));
+  Memo1.Lines.Add('Hour of the Year: ' +
+    IntToStr(HourOfTheYear(time1)));
+end;
+ 
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  { Insert the current time and date in the edit-boxes }
+  time1 := Time;
+  time2 := Time;
+  date1 := Today;
+  date2 := Tomorrow;
+  edTime1.Text := TimeToStr(time1);
+  edTime2.Text := TimeToStr(time2);
+  edDate1.Text := DateToStr(date1);
+  edDate2.Text := DateToStr(date2);
+end;
+UsesSystem.DateUtils.CompareTime 
+System.DateUtils.DayOfTheMonth 
+System.DateUtils.DayOfTheWeek 
+System.DateUtils.DayOfTheYear 
+System.DateUtils.DaysBetween 
+System.DateUtils.DaySpan 
+System.DateUtils.HourOfTheDay 
+System.DateUtils.HourOfTheMonth 
+System.DateUtils.HourOfTheWeek 
+System.DateUtils.HourOfTheYear 
+System.DateUtils.HoursBetween 
+System.DateUtils.HourSpan 
+System.DateUtils.MilliSecondOfTheDay 
+System.DateUtils.MilliSecondOfTheHour 
+System.DateUtils.MilliSecondOfTheMinute 
+System.DateUtils.MilliSecondOfTheMonth 
+System.DateUtils.MilliSecondOfTheSecond 
+System.DateUtils.MilliSecondOfTheWeek 
+System.DateUtils.MilliSecondOfTheYear 
+System.DateUtils.MilliSecondsBetween 
+System.DateUtils.MilliSecondSpan 
+System.DateUtils.MinuteOfTheDay 
+System.DateUtils.MinuteOfTheHour 
+System.DateUtils.MinuteOfTheMonth 
+System.DateUtils.MinuteOfTheWeek 
+System.DateUtils.MinuteOfTheYear 
+System.DateUtils.MinutesBetween 
+System.DateUtils.MinuteSpan 
+System.DateUtils.MonthOfTheYear 
+System.DateUtils.MonthsBetween 
+System.DateUtils.MonthSpan 
+System.DateUtils.SecondOfTheDay 
+System.DateUtils.SecondOfTheHour 
+System.DateUtils.SecondOfTheMinute 
+System.DateUtils.SecondOfTheMonth 
+System.DateUtils.SecondOfTheWeek 
+System.DateUtils.SecondOfTheYear 
+System.DateUtils.SecondsBetween 
+System.DateUtils.SecondSpan 
+System.DateUtils.Tomorrow 
+System.DateUtils.WeekOf 
+System.DateUtils.WeekOfTheMonth 
+System.DateUtils.WeekOfTheYear 
+System.DateUtils.WeeksBetween 
+System.DateUtils.WeekSpan 
+System.DateUtils.YearsBetween 
+System.DateUtils.YearSpan 
+Categories: Delphi2010

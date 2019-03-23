@@ -1,0 +1,30 @@
+﻿procedure GetImageByUrl(URL: string; APicture: TPicture); 
+var Jpeg: TJPEGImage;
+Strm: TMemoryStream;
+vIdHTTP : TIdHTTP;
+begin Screen.Cursor := crHourGlass;
+Jpeg := TJPEGImage.Create;
+ Strm := TMemoryStream.Create; 
+vIdHTTP := TIdHTTP.Create(nil); 
+try vIdHTTP.Get(URL, Strm);
+ if (Strm.Size > 0) then begin Strm.Position := 0;
+ Jpeg.LoadFromStream(Strm);
+ APicture.Assign(Jpeg);
+ end; finally Strm.Free; 
+Jpeg.Free; vIdHTTP.Free;
+ Screen.Cursor := crDefault;
+ end;
+ end;
+
+Exemplo de uso:
+
+procedure TForm1.Button1Click(Sender: TObject);
+
+ begin GetImageByUrl('http://localhost/teste/imagem.jpg', Image1.Picture);
+
+ end;
+Mais usado Jpeg: TPngImage da unit Vcl.Imaging.pngimage;
+Obs: A função está preparada para imagens jpeg, mas é possivel usar
+para png ou gif trocando TJPEGImage por TPngImage ou TGifImage.
+Também é necessário colocar a unit correspondente no uses.
+

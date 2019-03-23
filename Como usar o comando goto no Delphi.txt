@@ -1,0 +1,53 @@
+Como usar o comando goto no Delphi;
+
+ procedure FindFirstAnswer;
+   var X, Y, Z, Count: Integer;
+ label FoundAnAnswer;
+ begin
+   Count := SomeConstant;
+   for X := 1 to Count do
+     for Y := 1 to Count do
+       for Z := 1 to Count do
+         if ... { some condition holds on X, Y, and Z } then
+           goto FoundAnAnswer;
+ 
+   ... { Code to execute if no answer is found }
+   Exit;
+ 
+   FoundAnAnswer:
+     ... { Code to execute when an answer is found }
+ end;
+ 
+ -------------------------------------------
+ //Forma simplificada;
+ var label SeFor2,SeNaoFor2;
+ begin
+ if (strtoint(edit1.text)=2 then begin
+ goto SeFor2;
+ end else begin
+ goto SeNaoFor2;
+ End;
+ 
+ end;
+ exit;
+ 
+ SeFor2:
+ Begin
+ Showmessage('O numero é = a 2');
+ End;
+ exit;
+// 
+SeNaoFor2:
+Begin
+Showmessage('O numero é diferente de 2');
+End;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

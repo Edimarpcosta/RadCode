@@ -1,0 +1,38 @@
+var
+  blob: TStream;
+  fs: TFileStream;
+begin
+ blob := FDQuery1.CreateBlobStream(FDQuery1.FieldByName('Data'), bmRead);
+    try
+      blob.Seek(0, soFromBeginning);
+      with TFileStream.Create(local + 'img\base\svg.svg', fmCreate) do
+        try
+          CopyFrom(blob, blob.Size);
+        finally
+          Free;
+        end;
+    finally
+        cxImage1.Picture.LoadFromFile(local + 'img\base\svg.svg');
+      end;
+
+//ou
+
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  blob: TStream;
+  fs: TFileStream;
+  begin
+blob := FDQuery1.CreateBlobStream(FDQuery1.FieldByName('Data'), bmRead);
+    try
+      blob.Seek(0, soFromBeginning);
+      with TFileStream.Create(local + 'html\html.html', fmCreate) do
+        try
+          CopyFrom(blob, blob.Size);
+        finally
+          Free;
+        end;
+    finally
+    WebBrowser1.Navigate(local + 'html\html.html');
+    end;
+end;

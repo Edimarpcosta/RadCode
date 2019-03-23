@@ -1,0 +1,9 @@
+Sintaxe:
+Pos Recebe a Posição em integer do caractere pesquisado, se for =0 quer dizer que não existe.
+
+
+  if (Pos('-', dbeTel.Text) = 0) then 
+  begin
+    dbnClientes.BtnClick(nbEdit);
+    dbeTel.Text := Dm.FormataFone(dbeTel.Text);
+  end;

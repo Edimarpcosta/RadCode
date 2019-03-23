@@ -1,0 +1,18 @@
+//Declare DateUtils
+
+Function DateTimeToStringTimeStamp(Data : TDateTime) : String;
+var
+ Aux : String;
+begin
+ Aux     := IntToStr(YearOf(Data)) + '-';
+ Aux     := Aux + IntToStr(MonthOf(Data)) + '-';
+ Aux     := Aux + IntToStr(DayOf(Data)) + ' ';
+ Aux     := Aux + IntToStr(HourOf(Data)) + ':';
+ Aux     := Aux + IntToStr(MinuteOf(Data)) + ':';
+ Result  := Aux + IntToStr(SecondOf(Data));
+end;
+
+Function ConverteData(Data:TDate) : String;
+begin
+ Result := IntToStr(YearOf(Data)) + '/' + IntToStr(MounthOf(Data) + '/' + IntToStr(DayOf(data));
+ End;

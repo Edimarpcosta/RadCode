@@ -1,0 +1,47 @@
+uses //...
+//------------------------------
+//...
+//Uses e seus dependentes entre chaves{}...
+
+uses System.IOUtils,IdURI, {}
+
+Androidapi.JNI.JavaTypes,{JFile}
+
+Androidapi.JNIBridge,{ILocalObject,GetObjectID}
+
+Androidapi.JNI.GraphicsContentViewText,{JIntent,setType}
+
+Androidapi.JNI.Net, {Jnet_Uri}
+
+Androidapi.JNI.Os,{TJParcelable}
+
+Androidapi.IOUtils,{TPath,GetShareddocumentsPath}
+
+Androidapi.Jni.App,{startActivity}
+
+FMX.Helpers.Android,{}
+
+FMX.Platform;{}
+//---------------------------
+//...
+
+var
+IntentWhats : JIntent;
+Uri: Jnet_Uri;
+texto : string;
+AttachmentFile: JFile;
+ Begin
+
+  IntentWhats := TJIntent.JavaClass.init(TJIntent.JavaClass.ACTION_SEND);
+  IntentWhats.setPackage(StringToJString('com.whatsapp'));
+  AttachmentFile := TJFile.JavaClass.init(StringToJString(system.IOUtils.TPath.Combine(system.IOUtils.TPath.GetShareddocumentsPath(),'WhatApp.jpg')));
+//Caminho acima /storage/emulated/legacy/0/Documents/Texto.txt
+        Uri := TJnet_Uri.JavaClass.fromFile(AttachmentFile);
+        IntentWhats.putExtra(TJIntent.JavaClass.EXTRA_TEXT,StringToJString(texto));
+        IntentWhats.setType(StringToJString('text/plain'));
+        IntentWhats.putExtra(TJIntent.JavaClass.EXTRA_STREAM, TJParcelable.Wrap((Uri as ILocalObject).GetObjectID));
+        IntentWhats.setType(StringToJString('image/*'));
+        IntentWhats.addFlags(TJIntent.JavaClass.FLAG_GRANT_READ_URI_PERMISSION);
+        SharedActivity.startActivity(IntentWhats);
+
+End;

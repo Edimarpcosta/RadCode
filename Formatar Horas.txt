@@ -1,0 +1,1 @@
+ ListBoxItem6.Text := Format('Picked %s', [FormatDateTime('hh:nn', TimeEdit1.Time)]);

@@ -1,0 +1,10 @@
+Como localizar dados na tabela com Locate
+
+
+ FDQ_TYPE.Locate('ZITEMTYPENAME', ('Produto'), [loPartialKey, loCaseInsensitive]);
+ //Ao localizar, a query seleciona o registro correspondente, como em uma busca exata
+
+  {Como usar} nProduto := FDQ_TYPE.FieldByName('Z_PK').AsString;
+
+
+Nesse caso foi localizado na tabela "ZITEM" o registro cujo "ZITEMTYPENAME" = 'Produto'

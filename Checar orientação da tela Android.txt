@@ -1,0 +1,36 @@
+﻿
+uses FMXPlatform;
+
+
+procedure TForm2.FormResize(Sender: TObject);
+
+var
+
+  ScreenService: IFMXScreenService;
+
+begin
+
+  if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, IInterface(ScreenService)) then
+
+  begin
+
+    if ScreenService.GetScreenOrientation in [TScreenOrientation.soPortrait, TScreenOrientation.soInvertedPortrait] then
+
+      ShowMessage('Portrait Orientation')
+
+    else
+
+     Begin
+
+      ShowMessage('Landscape Orientation');
+
+ 
+
+     End;
+
+ 
+
+  end;
+
+end;
+

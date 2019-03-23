@@ -1,0 +1,14 @@
+TThread.CreateAnonymousThread(
+    procedure()
+    begin
+
+      TThread.Synchronize(TThread.CurrentThread,
+        procedure()
+        begin
+          //Seu código aqui
+        end);
+
+    //
+    //Ações ao terminar o processo acima
+
+    end).Start;

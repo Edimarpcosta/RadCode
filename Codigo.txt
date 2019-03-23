@@ -1,0 +1,191 @@
+interface
+
+uses
+    System.UITypes, System.SysUtils
+  , FMX.Dialogs
+{$IFDEF IOS}
+//06.05.16 ChgToDpfMin , DPF.iOS.MFMailCompose
+  , DPF.iOS.MailMin
+{$ENDIF IOS}
+{$IFDEF ANDROID}
+  , Androidapi.JNI.JavaTypes
+  , Androidapi.JNIBridge, Androidapi.JNI.App
+  , Androidapi.JNI.Net
+  , Androidapi.JNI.Os
+  , Androidapi.JNI.GraphicsContentViewText
+  , AndroidApi.Helpers
+  , FMX.Helpers.Android
+// , Androidapi.Jni.Net
+// , FMX.Helpers.Android
+// , Androidapi.JNIBridge
+{$ENDIF ANDROID}
+  ;
+
+
+type
+  TS4Mail_Attachments = array of String;
+
+
+
+
+// Send mail with standard client on various platforms
+function Mail_Send(const sRecp, sCC, sBCC, sSubj, sBody: String; const aAttach : TS4Mail_Attachments): Boolean;
+{$IFDEF IOS}
+var
+  FMailCompose : TDPFMailCompose;
+{$ENDIF IOS}
+
+{$IFDEF ANDROID}
+var
+  Intent : JIntent;
+  Uri : Jnet_Uri;
+  AttachmentFile: JFile;
+  D, S : JString;
+  aDest: TJavaObjectArray<JString>;
+// Uri : TJnet_Uri;
+
+{$ENDIF ANDROID}
+begin
+
+{$IFDEF IOS}
+  FMailCompose := TDPFMailCompose.Create(nil);
+
+  try
+
+    Result := FMailCompose.CanSendMail;
+    if Result then
+    begin
+      Result := FMailCompose.MailCompose(sSubj, //Subject
+                                         sBody, //Body
+                                         False, //Is Html
+                                         [sRecp], //Array of recepients
+                                         [sCC], //Array of CC
+                                         [sBCC], //Array of BCC
+                                         aAttach //Array of Attachment Files
+// , [] //Array of Attachment Files
+// , nil,
+// ''
+                                         );
+
+// function DPFMailCompose( Subject: string;
+// MessageBody: string;
+// MessageBodyisHtml: Boolean;
+// Recipients: array of string;
+// CCRecipients: array of string;
+// BCCRecipients: array of string;
+// AttachedFiles: array of string;
+// ImageView: TDPFImageView = nil;
+// ImageViewName: string = 'DPF-Photo.png' ) : Boolean;
+    end;
+
+  finally
+    FMailCompose.Free;
+    FMailCompose := nil;
+  end;
+
+{$ELSE  IOS}
+
+{$IFDEF ANDROID}
+
+  Result := False;
+
+  try
+
+
+    Intent := TJIntent.Create;
+
+    aDest := TJavaObjectArray<JString>.Create(1);
+    aDest.Items[0] := StringToJString( sRecp );
+
+    Intent.setAction(TJIntent.JavaClass.ACTION_Send);
+// Intent.setType( StringToJString('*/*'));
+// Intent.setType( StringToJString('text/plain'));
+// Intent.setType(StringToJString('vnd.android.cursor.dir/email'));
+    Intent.setType(StringToJString('message/rfc822')); // Hier sollten nur Mail Apps kommen (bei mir aber auch noch
+
+    //Intent.setAction(TJIntent.JavaClass.ACTION_SEND_MULTIPLE); //Use Array
+    Intent.setFlags( TJIntent.JavaClass.FLAG_ACTIVITY_NEW_TASK);
+    Intent.putExtra( TJIntent.JavaClass.EXTRA_EMAIL, aDest );
+    Intent.putExtra( TJIntent.JavaClass.EXTRA_SUBJECT, StringToJString(sSubj));
+    intent.putExtra( TJIntent.JavaClass.EXTRA_TEXT, StringToJString(sBody));
+// Uri := TJnet_Uri.JavaClass.parse(StringToJString(FileName));
+// Intent.putExtra(TJIntent.JavaClass.EXTRA_STREAM, Uri);
+
+
+    if (Length(aAttach) > 0) and (aAttach[0] <> '') then
+    begin
+      if FileExists(aAttach[0]) then
+      begin
+
+
+        AttachmentFile := TJFile.JavaClass.init(StringToJString( aAttach[0] ));
+
+//## AttachmentFile := TAndroidHelper.Activity.getExternalFilesDir(StringToJString(aAttach[0]));
+
+
+        Uri := TJnet_Uri.JavaClass.fromFile(AttachmentFile);
+        Intent.putExtra(TJIntent.JavaClass.EXTRA_STREAM,
+                        TJParcelable.Wrap((Uri as ILocalObject).GetObjectID));
+
+      end;
+
+    end;
+
+
+//## Intent.putExtra(TJIntent.JavaClass.EXTRA_EMAIL, StringToJString(Recipient));
+//## Intent.putExtra(TJIntent.JavaClass.EXTRA_SUBJECT, StringToJString(Subject));
+//## Intent.putExtra(TJIntent.JavaClass.EXTRA_TEXT, StringToJString(Content));
+
+//## Intent.setType(StringToJString('vnd.android.cursor.dir/email'));
+
+// Intent.setType(StringToJString('vnd.android.cursor.dir/email'));
+
+
+//##OFF Intent.setType(StringToJString('vnd.android.cursor.dir/email'));
+
+//##OFF SharedActivity.startActivity(Intent);
+
+
+// Intent.setType(StringToJString('vnd.android.cursor.dir/email')); Auch OK
+
+//## Intent.setType(StringToJString('message/rfc822')); // Hier sollten nur Mail Apps kommen (bei mir aber auch noch
+
+// SharedActivity.startActivity(Intent);
+
+
+// Intent := TJIntent.Create;
+// Intent.setAction(TJIntent.JavaClass.ACTION_SEND);
+// Intent.setType(StringToJString('message/rfc822'));
+// Intent.putExtra(TJIntent.JavaClass.EXTRA_EMAIL, StringToJString( sRecp ));
+// Intent.putExtra(TJIntent.JavaClass.EXTRA_SUBJECT, StringToJString( sSubj ));
+// intent.putExtra(TJIntent.JavaClass.EXTRA_TEXT, StringToJString( sBody ));
+
+    TAndroidHelper.Activity.startActivity(TJIntent.JavaClass.createChooser(Intent,
+                                          StrToJCharSequence('Choose email app')));
+
+// SharedActivity.startActivity(TJIntent.JavaClass.createChooser(Intent,
+// StrToJCharSequence('Which email app ?')));
+
+
+// Intent := TJIntent.JavaClass.init(TJIntent.JavaClass.ACTION_SENDTO); // ACTION_SEND);
+// Intent.putExtra(TJIntent.JavaClass.EXTRA_EMAIL, StringToJString( sRecp ));
+// Intent.putExtra(TJIntent.JavaClass.EXTRA_SUBJECT, StringToJString( sSubj ));
+// Intent.putExtra(TJIntent.JavaClass.EXTRA_TEXT, StringToJString( sBody ));
+// // Intent.setType(StringToJString('plain/text'));
+// Intent.setType(StringToJString('message/rfc822')); //message/rfc822'));
+// // LaunchActivity(Intent);
+// LaunchActivity(TJIntent.JavaClass.createChooser(Intent, StrToJCharSequence('Which email app?')));
+
+    Result := True;
+
+  finally
+
+  end;
+
+{$ELSE  ANDROID}
+  {$MESSAGE WARN 'S4Mail_Send not implemented for this platform}
+  Result := False;
+{$ENDIF ANDROID}
+{$ENDIF IOS}
+
+end;

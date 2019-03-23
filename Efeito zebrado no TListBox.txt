@@ -1,0 +1,66 @@
+
+DEVMEDIA
+
+Login
+
+Mostrar menu
+
+Mudar cor de fundo da linha do ListBox
+
+23/06/2004
+
+Olá!
+
+Gostaria de saber como faz para mudar a cor de fundo de um item num ListBox.
+
+Por exemplo: Ao inserir um item, se for a linha zero do ListBox, mantem fundo branco; Se for a linha 1, troca para vermelho a cor de fundo APENAS DESTE ITEM; Se for a linha 2, mantém a cor de fundo em branco, e assim em diante alternando as cores.
+
+Tem com ser feito isso?
+
+Obrigado.
+wbb
+
+
+Delphi
+
+Wbb
+
+RESPOSTAS
+
+23/06/2004
+
+Minuto
+
+Amigo que eu saiba, o listbox tem cor única para fazer isso use um grid
+talvez exista algum componente evoluido do listbox que faça isso.?!?!
+
+
+RESPONDERCITAR
+
+Melhor Resposta+ 0
+
+23/06/2004
+
+Minuto
+
+procedure TForm1.ListBox1DrawItem(Control: TWinControl; Index: Integer; 
+Rect: TRect; State: TOwnerDrawState); 
+begin 
+with ListBox1, ListBox1.Canvas do 
+begin 
+if (odSelected in State) then 
+begin 
+Brush.Color:= clDkGray; //Cor quando estiver selecionado 
+Pen.Color:= clBlack; 
+DrawFocusRect(Rect); 
+end 
+else 
+begin 
+Brush.Color:= clLtGray;//Cor quando não estiver selecionado 
+Pen.Color:= clLtGray; //Coloque a mesma cor da linha de cima 
+end; 
+Rectangle(Rect); 
+TextOut(Rect.Left+1, Rect.Top+1, Items[Index]); 
+end; 
+end;
+

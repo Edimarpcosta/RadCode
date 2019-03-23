@@ -1,0 +1,24 @@
+Procurar Substring em uma String em Delphi
+Bom pessoal, hoje mostrarei como verificar se uma substring esta em uma string utilizando o Delphi.
+
+Para isso, utilizaremos a função nativa do Delphi pos.
+
+Os parâmetros para se utilizar o pos são:
+
+substring
+
+string
+
+e o retorno da função é a posição da 1ª letra da substring dentro da string, e caso não encontrar, retornará 0 (zero).
+
+Então vamos ao exemplo:
+
+if pos('teste','Isto é um teste')>0 then
+
+ShowMessage('A Substring teste foi encontrada na posição '+IntToStr(pos('teste','Isto é um teste')) )
+
+else
+
+ShowMessage('Não foi encontrada a substring teste');
+
+Obs: os parâmetros substring e string são case-sensitive (diferenciam maiúscula de minúscula).

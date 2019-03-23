@@ -1,0 +1,24 @@
+DECLARE @DayOfWeek int;
+DECLARE @DayOfWeekExt nvarchar(12);
+DECLARE @thistime nvarchar(25);
+DECLARE @filename nvarchar(255);
+ 
+SET @DayOfWeek = DATEPART(weekday,GETDATE())
+
+  IF @DayOfWeek=1
+     SET @DayOfWeekExt ='Domingo'
+  IF @DayOfWeek=2 
+     SET @DayOfWeekExt ='Segunda'
+  IF @DayOfWeek=3 
+     SET @DayOfWeekExt ='Terca'
+  IF @DayOfWeek=4 
+     SET @DayOfWeekExt ='Quarta'
+  IF @DayOfWeek=5 
+     SET @DayOfWeekExt ='Quinta'
+  IF @DayOfWeek=6 
+     SET @DayOfWeekExt ='Sexta'
+  IF @DayOfWeek=7 
+     SET @DayOfWeekExt ='Sabado'
+
+SET @thistime = CONVERT(nvarchar,GETDATE(),8);
+select @thistime,@DayofWeekExt;

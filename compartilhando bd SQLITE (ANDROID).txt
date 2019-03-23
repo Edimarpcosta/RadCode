@@ -1,0 +1,30 @@
+TFile.Copy(TPath.Combine(TPath.GetDocumentsPath, 'BaseLocal.s3db'), TPath.GetTempPath+'/BaseLocal_copia.s3db', true); //FAZ CÓPIA D0 BANCO DE DADOS
+
+
+Dm.enviarEmail('seu@email.com', Dm.qryEmpresaEM_NOME.AsString+': BANCO DE DADOS ('+DateTimeToStr(now)+')', msg, 'tmp/BaseLocal_copia.s3db');
+
+
+function TDM.enviarEmail(email, titulo, assunto, caminhoAnexo: String): String;
+var Intent : JIntent;
+  Destinatarios : TJavaObjectArray<JString>;
+  Uri: Jnet_Uri;
+  AttachmentFile: JFile;
+begin
+  Destinatarios := TJavaObjectArray<JString>.Create(1);
+
+  Intent := TJIntent.JavaClass.init(TJIntent.JavaClass.ACTION_SEND);
+  Destinatarios.Items[0] := StringToJString(email);
+  Intent.putExtra(TJIntent.JavaClass.EXTRA_EMAIL, Destinatarios);
+  Intent.putExtra(TJIntent.JavaClass.EXTRA_SUBJECT, StringToJString(titulo));
+  Intent.putExtra(TJIntent.JavaClass.EXTRA_TEXT, StringToJString(assunto));
+
+  if (Trim(caminhoAnexo) <> '') then
+  begin
+     AttachmentFile := SharedActivity.getExternalFilesDir(StringToJString(caminhoAnexo));
+     Uri := TJnet_Uri.JavaClass.fromFile(AttachmentFile);
+     Intent.putExtra(TJIntent.JavaClass.EXTRA_STREAM, TJParcelable.Wrap((Uri as ILocalObject).GetObjectID));
+  end;
+
+  Intent.setType(StringToJString('plain/text'));
+  SharedActivity.startActivity(TJIntent.JavaClass.createChooser(Intent, StrToJCharSequence('Qual aplicativo deseja utilizar?')));
+end;

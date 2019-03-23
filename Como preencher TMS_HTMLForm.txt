@@ -1,0 +1,1 @@
+HTMLform.HTMLText.Insert(0,cxDBTextEdit24.Text);

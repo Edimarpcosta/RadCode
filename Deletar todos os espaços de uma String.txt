@@ -1,0 +1,21 @@
+Use:
+
+Edit2.Text:=Trim(Edit1.Text);
+
+ou
+
+// DeleteSpaces function is so:
+
+function DeleteSpaces(Str: string): string;
+var
+  i: Integer;
+begin
+  i:=0;
+  while i<=Length(Str) do
+    if Str[i]=' ' then Delete(Str, i, 1)
+    else Inc(i);
+  Result:=Str;
+end;
+
+// Use DeleteSpaces function. For example:
+Edit2.Text:=DeleteSpaces(Edit1.Text);

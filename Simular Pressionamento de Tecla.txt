@@ -1,0 +1,13 @@
+Emular pressionamento de Tecla:
+
+
+  //Pressiona as teclas
+    keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL, 0), 0, 0); //Control
+    keybd_event(Ord('V'), MapVirtualKey(Ord('V'), 0), 0, 0); //V
+    keybd_event(VK_RETURN, MapVirtualKey(VK_RETURN, 0), KEYEVENTF_KEYUP, 0); //ENTER
+ 
+   //Libera as Teclas
+    keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL, 0), KEYEVENTF_KEYUP, 0);
+    keybd_event(VK_RETURN, MapVirtualKey(VK_RETURN, 0), KEYEVENTF_KEYUP, 0);
+    keybd_event(Ord('V'), MapVirtualKey(Ord('V'), 0), KEYEVENTF_KEYUP, 0);
+-----------------------------------------

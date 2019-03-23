@@ -1,0 +1,15 @@
+function ExtractUrlFileName(const AUrl: string): string; 
+var 
+  i: Integer; 
+begin 
+  i := LastDelimiter('/', AUrl);
+  Result := Copy(AUrl, i + 1, Length(AUrl) - (i)); 
+end; 
+
+procedure TForm1.Button1Click(Sender: TObject); 
+var 
+  s: string; 
+begin 
+  s := ExtractUrlFileName('http://www.delphimania.de/index.php'); 
+  ShowMessage(s);  //index.php 
+end

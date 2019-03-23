@@ -1,0 +1,42 @@
+{
+Sometimes you need to change a some property for each components. Of course, if
+these components have a common ancestor, then you can write:
+}
+
+var i: Integer;
+begin
+  for i := 0 to ComponentCount-1 do
+    if Components[i] is TyourAncestor then
+       TyourAncestor(Components[i]).yourProperty := yourValue;
+end;
+
+// For example,
+
+var i: Integer;
+begin
+  for i := 0 to ComponentCount-1 do
+    if Components[i] is TSpeedButton then
+       TSpeedButton(Components[i]).Flat := True;
+end;
+
+{
+But frequently you need change a property but the components haven't a common
+ancestor. In an example above you can have a TSpeedButton's components and
+TDBNavigator component on same panel. These components have taken place from
+different ancesors and you must change a property as different. You can
+make following:
+}
+
+var i: Integer;
+    PropInfo: PPropInfo;
+begin
+  for i := 0 to ComponentCount-1 do
+  begin
+    PropInfo := GetPropInfo(Components[i].ClassInfo, yourPropertyName);
+    {if such property exists}
+    if Assigned(PropInfo) then
+      SetOrdProp(Components[i], PropInfo, LongInt(yourPropertyValue));
+  end;
+end;
+
+{

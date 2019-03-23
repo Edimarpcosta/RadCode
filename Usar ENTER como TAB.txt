@@ -1,0 +1,12 @@
+//Usar ENTER como TAB
+
+Habilitar o KeyPreview do Form
+
+No evento OnKeyPress do Form
+
+   If ( Key = #13 ) Then begin
+      Key := #0;
+      PostMessage( HANDLE, WM_KEYDOWN, VK_TAB, 1 );//
+   End;
+
+ 

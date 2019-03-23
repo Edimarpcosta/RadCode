@@ -1,0 +1,12 @@
+procedure TFormServ.CriaLog(TextLog: String);
+var
+Log: TextFile;
+begin
+AssignFile(Log,'Log.txt');
+Rewrite(Log);
+Write(Log,´Veículo: ´+Table1.FieldByName(´Veículo´).AsString);
+Write(Log,´ Km: ´+KmAtual.Text);
+Writeln(Log,´ Data: ´+DateToStr(date));
+Writeln(Log,TextLog);
+Closefile(Log);
+end;
