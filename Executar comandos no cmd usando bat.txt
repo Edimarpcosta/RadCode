@@ -1,0 +1,32 @@
+function TFrmCadastro.AddDeleteServico(comando: string): boolean;
+var
+   txt: TextFile;
+   dir: string;
+   ret: boolean;
+begin
+  ret:=False;
+  try                                                     
+     dir:=ExtractFilePath(Application.ExeName);
+     AssignFile(txt, dir + 'User.bat');
+     Rewrite(txt);
+     Write(txt,comando);
+ 
+     CloseFile(txt);
+     if WinExecAndWait32(dir + 'User.bat',dir,SW_ShowNormal) = 0 then
+         ret:=True;
+     DeleteFile(dir + 'User.bat');
+  finally
+     AddDeleteServico:=ret;
+  end;
+end;
+
+//Como usar
+
+procedure ExecComando;
+var comando : string;
+begin
+ 
+comando := 'C:\\Arquivos de programas\\MySQL\\MySQL Server 5.0\\bin\\mysqldump --xml --host=localhost --user=root --password=root mateus > c:\\ccc.xml';
+AddDeleteServico(Comando);
+ 
+end;
