@@ -1,0 +1,7 @@
+uses
+StrUtils;
+
+Var Acesso:Booleam;
+Begin
+ShowMessage(IfThen(Acesso,'Acesso Permitido','Acesso Negado'));
+End;
