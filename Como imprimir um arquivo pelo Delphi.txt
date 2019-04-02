@@ -1,0 +1,22 @@
+procedure PrintFile(aFile : TFileName);
+var
+  Device: array[0..255] of Char;
+  Driver: array[0..255] of Char;
+  Port: array[0..255] of Char;
+  S: string;
+  hDeviceMode: THandle;
+begin
+  // Selecione uma impresora, neste caso é a padrão.
+  Printer.PrinterIndex := -1;
+  Printer.GetPrinter(Device, Driver, Port, hDeviceMode);
+  S := Format('"%s" "%s" "%s"', [Device, Driver, Port]);
+  ShellExecute(Application.Handle, 'printto', PChar(aFile),
+  PChar(S), nil, SW_HIDE);
+end;
+
+//Como usar
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  PrintFile('C:\Exemplos\ShowDelphi.txt');
+end;
