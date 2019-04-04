@@ -1,0 +1,25 @@
+//add ApplicationEvents
+//No evento OnIdle add
+procedure TFmenu.ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
+var
+  ctrl: TWinControl;
+begin
+  ctrl := FindVCLWindow(Mouse.CursorPos);
+  if ctrl <> nil then
+  begin
+    Label2.caption := ctrl.Name;
+    // do something if mouse is over TLabeledEdit
+    if ctrl is TDBEdit then
+    begin
+
+       case PageControl1.ActivePageIndex of
+    0:
+      rcInfo.Text := TDBEdit(ctrl).Text;
+    1:
+      rcPlan.Text := TDBEdit(ctrl).Text;
+    2:
+      rcDo.Text := TDBEdit(ctrl).Text;
+  end;
+    end;
+  end;
+end;
