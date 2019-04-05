@@ -1,0 +1,45 @@
+Declare System.Zip ou apenas Zip na uses do form. 
+
+Compactar 
+
+Código:
+function Zip(Files: TStrings; ZipName: String): boolean; // Compacta 
+os arquivos 
+var 
+  I: integer; 
+  Zipper: TZipFile; 
+begin 
+  Zipper := TZipFile.Create(); 
+  try 
+    Zipper.Open(ZipName, zmWrite); 
+    for I := 0 to Files.Count - 1 do 
+    begin 
+      if FileExists(Files[I]) then 
+        Zipper.Add(Files[I]); 
+    end; 
+    Zipper.Close; 
+  finally 
+    FreeAndNil(Zipper); 
+  end; 
+  Result := True; 
+end;
+
+
+Descompactar 
+
+Código:
+function UnZip(ZipName: string; Destination: string): boolean; // Descompacta 
+no Diretorio informado 
+var 
+  UnZipper: TZipFile; 
+begin 
+  UnZipper := TZipFile.Create(); 
+  try 
+    UnZipper.Open(ZipName, zmRead); 
+    UnZipper.ExtractAll(Destination); 
+    UnZipper.Close; 
+  finally 
+    FreeAndNil(UnZipper); 
+  end; 
+  Result := True; 
+end;
