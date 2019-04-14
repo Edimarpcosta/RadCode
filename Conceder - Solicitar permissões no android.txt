@@ -1,0 +1,44 @@
+uses
+System.Permissions;
+
+procedure PermissionRequestResult(Sender: TObject;
+const APermissions: TArray<string>;
+const AGrantResults: TArray<TPermissionStatus>);
+begin
+  // 3 permission involved
+  if (Length(AGrantResults) = 3) and
+    (AGrantResults[0] = TPermissionStatus.Granted) and
+    (AGrantResults[1] = TPermissionStatus.Granted) and
+    (AGrantResults[2] = TPermissionStatus.Granted) then
+  else
+    ShowMessage('A permissão requerida não foi concedida!');
+	end;
+	
+	//
+	
+procedure DisplayRationale(Sender: TObject;
+const APermissions: TArray<string>; const APostRationaleProc: TProc);
+begin
+  TDialogService.ShowMessage('Need to access the camera',
+    procedure(const AResult: TModalResult)
+    begin
+      APostRationaleProc;
+    end);
+end;
+
+//
+
+//Chamar Permissions
+var
+  permCam, permRead, permWrite: string;
+begin
+  // Request permissions
+  permCam := JStringToString(TJManifest_permission.JavaClass.CAMERA);
+  permRead := JStringToString
+    (TJManifest_permission.JavaClass.READ_EXTERNAL_STORAGE);
+  permWrite := JStringToString
+    (TJManifest_permission.JavaClass.WRITE_EXTERNAL_STORAGE);
+  PermissionsService.RequestPermissions([permCam, permRead, permWrite],
+    PermissionRequestResult, DisplayRationale);
+	End;
+    //
