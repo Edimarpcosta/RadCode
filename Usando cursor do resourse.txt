@@ -1,0 +1,85 @@
+www.delphiforfun.org/programs/delphi_techniques/CustomCursors.htm
+
+Resource (.res) files can hold icons, cursors,
+strings, bmp images, audio/video files and other
+data to be included in executable (.exe)  files.
+Here's an outline of the steps I use to add
+custom cursors to my programs.  Procedure for
+other types of resources are similar.
+Building the resource file
+Download, extract or build the cursor
+files desired.
+Build a resource "script" text file with a
+.rc extension. Each line contains the
+resource name, the resource type and
+the resource file name separated by
+spaces. Since Delphi builds its own
+resource file for your project each time
+you compile, your resource file name
+should not be the project name. The For
+example Peg Solitaire uses a file named
+Peg with lines:
+PEGNODROP CURSOR "pegnonrop.cur"
+PEGDROP CURSOR "pegdrop.cur"
+Define a batch file to invoke Borland's
+resource compiler to compile the
+resource script to build a resource file.
+This compiler resides in Delphi's \Bin
+folder. It takes in a " .rc " file as source
+and produces a " .res " file as its
+output.     It's easiest if you save the
+batch file in the same directory as your
+project. My Genres.bat file has this line:
+" C:\Program Files\Borland\Delphi5\Bin
+\BRCC32.EXE" PegCursors.RC
+When you double click on Genres.bat (or
+whatever name you choose), file
+PegCursors.res should be built.   (If
+you're a good typist, you could just type
+this line into an MSDOS window or the
+Run box on your start menu - I'm not that
+good. And it does assume that the ".rc "
+file is in the current directory. )
+Using the resource file
+In the program, add a line telling the
+linker to include this file in the
+executable. e.g. {$R Cursors.res} You
+can add it to the unit (say right below
+the {$R *.dfm} line), or in the DPR
+project file after the {$R *.res} line.
+The cursor ids within your program can
+either be predefined cursor ids (c ,
+crHourglass, crDrag , etc. - check
+TCursor in Delphi help for a complete
+list) or a new cursor id (any integer
+greater than 0 and less than 32768).
+If you are defining a new cursor, it's
+good practice to define a name to the
+cursor using a constant.  e.g.
+
+Const
+crRed=1;
+crBlue=2;
+
+Load the cursor any time before you try
+to assign it to screen.cursor, I do it in a
+FormCreate exit. with lines like:
+
+screen.cursors[crDrag]:=LoadCursor
+(HInstance, 'PEGDROP');
+screen.cursors[crRed]:=loadcursor
+(HInstance,'RED');
+
+HInstance is a global Delphi variable
+containing the handle of the
+application.
+Finally assign the cursor as appropriate,
+either by an entry in the properties field
+of a component or by assigning it in
+code.
+That's it. I've used custom cursors in Peg
+Solitaire and in the Game of HIP, both posted in
+the Program Section. You can download Peg
+Solitaire custom cursor stuff here if you're
+interested.   The cursor files for HIP are included
+in the source download for HIP.

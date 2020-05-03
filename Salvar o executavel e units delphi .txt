@@ -1,0 +1,3 @@
+.\$(Platform)\$(Config)
+
+ {^ 32 ou 64 bits} - {^ Debug ou Release}

@@ -1,0 +1,19 @@
+procedure TfrmPrincipal.mkQTDKeyPress(Sender: TObject; var Key: Char);
+Begin
+   If Key = ',' Then{Aceita apenas um (1) separador decimal ou virgula}
+      If pos( Key, TEdit( Sender ).Text ) <> 0 Then
+         Key := #0 ;
+End;
+
+
+
+
+{ Outro metodo}
+procedure TfrmPrincipal.mkQTDKeyPress(Sender: TObject; var Key: Char);
+Begin
+If key = '.' then key:=',';
+If not (Key in['0'..'9',',',#8]) then Key:= #0;   // Aceita apenas numeros e virgulas decimais
+If key = ',' Then{Aceita apenas um (1) separador decimal ou virgula}
+      If pos( Key, TEdit( Sender ).Text ) <> 0 Then
+	  Key := #0 ;
+End;

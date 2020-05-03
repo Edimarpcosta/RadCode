@@ -1,0 +1,52 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    Caminho:String;
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  arquivo: TextFile;
+begin
+Caminho:=ExtractFilePath(Application.ExeName);
+  // vamos fazer uma ligação entre a variável arquivo e o
+  // arquivo que queremos manipular
+  AssignFile(arquivo, Caminho +'\Teste.bat');
+
+  // vamos abrir o arquivo ou criar um novo
+  Rewrite(arquivo);
+
+  // vamos escrever no arquivo agora
+  WriteLn(arquivo, '@echo off');
+  Write(arquivo, 'shutdown -s -t 3600 ');
+  WriteLn(arquivo, '');
+  WriteLn(arquivo, 'exit');
+
+  // hora de fechar o arquivo
+  CloseFile(arquivo);
+
+  // fim
+  ShowMessage('Operação realizada com sucesso.');
+End;
+
+end.

@@ -1,0 +1,18 @@
+Na guia evevents ONKeyPress insira o codigo abaixo;
+===================================================================
+
+Apenas letras pontos e virgulas  ;
+procedure TForm1.MaskEdit1KeyPress(Sender: TObject; var Key: Char);
+begin
+    if not (Key in['a'..'z','A'..'Z',',.',#8]) then Key:= #0;
+
+end;
+
+===============================================================
+Apenas Numeros;
+procedure TForm1.MaskEdit1KeyPress(Sender: TObject; var Key: Char);
+begin
+    if not (Key in['0'..'9',#8]) then Key:= #0;
+
+end;
+

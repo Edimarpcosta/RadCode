@@ -1,0 +1,97 @@
+Faça assim:
+#Código
+
+ 
+Edit2.Text := DateToStr(IncDay(StrToDate(Edit1.Text), 4));
+ 
+
+Declare na uses do seu form, a unit DateUtils.
+
+==================================================================================
+
+Exemplo 2: (Mais completo)
+
+-----------
+//Soma dias, Semanas, Meses e Anos
+
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Mask,DateUtils,
+  Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    mkDate1: TMaskEdit;
+    mkResultado: TMaskEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    btnSomar: TBitBtn;
+    edtNumDias: TEdit;
+    RadioSoma: TRadioGroup;
+    Bevel1: TBevel;
+    Bevel2: TBevel;
+    procedure FormShow(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnSomarClick(Sender: TObject);
+    procedure RadioSomaClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btnSomarClick(Sender: TObject);
+begin
+case RadioSoma.ItemIndex of
+0: Begin // Somar Dias 
+  mkResultado.Text := DateToStr(IncDay{Dias}(StrToDate(mkDate1.Text), StrToInt(edtNumDias.Text)));
+  End;
+  
+  1: Begin // Somar Semanas
+  mkResultado.Text := DateToStr(IncWeek{Semanas}(StrToDate(mkDate1.Text), StrToInt(edtNumDias.Text)));
+  End;
+  
+  2: Begin // Somar Mêses
+  mkResultado.Text := DateToStr(IncMonth{Mêses}(StrToDate(mkDate1.Text), StrToInt(edtNumDias.Text)));
+  End;
+  
+  3: Begin // Somar Anos
+  mkResultado.Text := DateToStr(IncYear{Anos}(StrToDate(mkDate1.Text), StrToInt(edtNumDias.Text)));
+End;
+end;
+end;
+
+procedure TForm1.FormKeyPress(Sender: TObject; var Key: Char);
+Begin // Usar o enter para pular as casas (Habilite o KeyPreview do form)
+If key = #13 then
+Begin
+Key:= #0;
+Perform(Wm_NextDlgCtl,0,0);
+End;
+End;
+procedure TForm1.FormShow(Sender: TObject);
+begin
+mkDate1.Text:=DateToStr(Now);
+end;
+
+procedure TForm1.RadioSomaClick(Sender: TObject);
+begin
+edtNumDias.SetFocus;
+end;
+
+end.
+
+
+

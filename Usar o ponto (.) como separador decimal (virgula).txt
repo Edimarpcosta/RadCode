@@ -1,0 +1,5 @@
+procedure TfrmPrincipal.mkQTDKeyPress(Sender: TObject; var Key: Char);
+Begin
+   if key = '.' then {Transforma o '.' em  separador decimal}
+   Begin Key := ',';
+End;

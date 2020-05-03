@@ -1,0 +1,10 @@
+procedure TfrmSplash.Timer1Timer(Sender: TObject);
+ begin  //Timer com intervalo 70
+ progressbar1.position:=progressbar1.position + 1;
+label2.caption:=inttostr(progressbar1.Position) + '%';
+if progressbar1.position=100 then
+begin
+frmSplash.Destroy;
+frmLogin.show;
+
+end;

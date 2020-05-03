@@ -1,0 +1,10 @@
+procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+if MessageDlg('Deseja fechar a aplicação?', mtConfirmation,
+[mbYes, mbNo], 0) = mrYes then
+begin
+Action := caFree; //ação do objeto TCloseAction para fechar a tela
+end
+else
+Action := caNone ; //ação do objeto TCloseAction para não fechar a tela
+end;

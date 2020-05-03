@@ -1,0 +1,28 @@
+ v !!! IMPORTANTE !!! v
+Declare ShellApi na Guia "uses"
+
+#Códigos de Exemplo
+
+===== Bloco de Notas #
+Shellexecute(handle,'open',pchar('notepad'),nil,nil, sw_shownormal); // Chamar Bloco de Notas {Declar ShellApi no Uses}
+________________________________________________________________________________________________________________________
+
+===== Calculadora
+Shellexecute(handle,'open',pchar('calc'),nil,nil, sw_shownormal); // Chamar Calculadora
+________________________________________________________________________________________________________________________
+
+===== Email
+Shellexecute(handle,'open',pchar('mailto:' + 'edimarpcosta@hotmail.com'),nil,nil, sw_shownormal); // Enviar email
+________________________________________________________________________________________________________________________
+
+===== Microsoft Excel
+Shellexecute(handle,'open',pchar('excel'),nil,nil, sw_shownormal); // // Chamar O Microsoft Excel
+________________________________________________________________________________________________________________________
+
+===== Microsoft Word
+Shellexecute(handle,'open',pchar('winword'),nil,nil, sw_shownormal); // Chamar Microsoft Word
+________________________________________________________________________________________________________________________
+
+===== Chamar sites
+Shellexecute(handle,'open',pchar('https://www.google.com.br/'),nil,nil, sw_shownormal); // Chamar site do Google
+________________________________________________________________________________________________________________________

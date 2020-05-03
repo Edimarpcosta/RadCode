@@ -1,0 +1,63 @@
+  
+T�tulo: Auto completar edit
+//Esta dica é para completar um edit ou dbedit automaticamente ao se digitar um //dado.  Se o mesmo for encontrado no banco de dados especificado, será //sugerido ao usuário.
+
+procedure Edit1.Edit1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+Var
+Aux : Integer;
+Posicao : Integer;
+begin
+Try
+Query1.Active := False;
+Query1.SQL.Clear;
+If Edit1.Text <> '' then
+begin
+Query1.SQL.Add('SELECT * FROM TABELA WHERE CAMPO LIKE ' + #39 + Edit1.Text + #37 + #39 + ' ORDER BY CAMPO');
+Query1.Active := True;
+If Query1.FieldByName('CAMPO').AsString <> '' then
+begin
+Posicao := length(Edit1.Text);
+For Aux := length(Edit1.Text)+1 to Length(Query1.FieldByName('Tratamento').AsString) do
+begin
+Edit1.Text := Edit1.Text + Query1.FieldByName('Tratamento').AsString[Aux];
+end;
+Edit1.SelStart := Posicao;
+Edit1.SelLength := length(Edit1.Text);
+end;
+end;
+Except
+end;
+end;
+========================================================================================================================================
+procedure Edit1.Edit1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+Var
+Aux : Integer;
+Posicao : Integer;
+begin
+Try
+Query1.Active := False;
+Query1.SQL.Clear;
+If Edit1.Text <> '' then
+begin
+Query1.SQL.Add('SELECT * FROM TABELA WHERE CAMPO LIKE ' + #39 + Edit1.Text + #37 + #39 + ' ORDER BY CAMPO');
+Query1.Active := True;
+If Query1.FieldByName('CAMPO').AsString <> '' then
+begin
+Posicao := length(Edit1.Text);
+For Aux := length(Edit1.Text)+1 to Length(Query1.FieldByName('Tratamento').AsString) do
+begin
+Edit1.Text := Edit1.Text + Query1.FieldByName('Tratamento').AsString[Aux];
+end;
+Edit1.SelStart := Posicao;
+Edit1.SelLength := length(Edit1.Text);
+end;
+end;
+Except
+end;
+end;
+
+
+por : Mickey
+  
+Site: www.delphidicas.com.br 
+ 

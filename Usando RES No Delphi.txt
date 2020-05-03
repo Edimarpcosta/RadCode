@@ -1,0 +1,71 @@
+como criar e usar arquivo .res ( delphi )
+os arquivos .res sao bem interessante quando
+voce pretende unir qualquer arquivo ao seu
+executavel e extrai-lo no momento que desejar.
+como criar e usar um arquivo .res?
+1. crie o arquivo .RC
+- um arquivo RC precisa de 3 parametro:
+1 - o nome do recurso.
+2 - o tipo do arquivo.
+3 - o caminho do arquivo.
+no bloco de notas voce pode digitar:
+[NOME ARQUIVO] [TIPO DO ARQUIVO] [CAMINHO DO
+ARQUIVO]
+onde:
+[NOME DO ARQUIVO] = nome sem extensao. exemplo:
+recurso
+[TIPO DO ARQUIVO] = tipo. exemplo: EXEFILE
+[CAMINHO DO ARQUIVO] = localizacao. exemplo: c:
+\recurso.exe
+exemplo:
+recurso EXEFILE c:\recurso.exe
+- salve com a extensao .rc ( na raiz. exemplo:
+c:\recurso.rc )
+2. crie o arquivo .RES
+- com o arquivo .rc em maos, va ate o diretorio
+onde seu delphi esta instalado e entre no
+subdiretorio Bin. la tem um programa chamado
+Brcc32 .
+- vamos compilar o .RC para .RES usando este
+programa via DOS.
+- abra o DOS ( prompt de comando ) e posicione
+para o diretorio Bin. por exemplo: c:\xx\xx\bin
+- setado no diretorio digite:
+Brcc32 [caminho do seu arquivo .RC]
+exemplo:
+Brcc32 c:\recurso.rc
+feito isso, vai ser criado neste mesmo
+diretorio um arquivo .res
+2. use o arquivo .RES
+- no delphi voce pode criar uma nova aplicacao
+e colocar um botao para extrair o arquivo, ou
+chamar em outro evento conforme desejar. para
+isso voce precisa informar uma diretiva de
+programacao logo abaixo dessa diretiva: {$R
+*.dfm}
+logo abaixo digite: {$R [NOME DO SEU .RES].RES}
+lembrando que seu .res deve ficar na mesma
+pasta do seu projeto para funcionar.
+exemplo:
+{$R *.dfm}
+{$R recurso.res}
+procedure rtnExtrair_Arquivo;
+var
+Res: TResourceStream; // classe para manipular
+recurso.
+PathFile: String; // onde sera salvo o arquivo.
+begin
+PathFile := 'c:\recurso.exe' ;
+Res := TResourceStream.Create
+(HInstance, 'recurso' , 'EXEFILE' );
+try
+Res.SaveToFile(PathFile); // salva o arquivo no
+diretorio.
+finally
+Res.Free; // libera da memoria o objeto
+end;
+end;
+pronto! agora eh so chamar a rotina em um botao
+que vai ser extraido o arquivo para o diretorio
+informado. ou seja, voce teve um arquivo dentro
+de outro.

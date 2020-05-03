@@ -1,0 +1,8 @@
+
+procedure TfrmDatas.FormKeyPress(Sender: TObject; var Key: Char);
+Begin // Usar o enter para pular as casas (Habilite o KeyPreview do form)
+If key = #13 then
+Begin
+Key:= #0;
+Perform(Wm_NextDlgCtl,0,0);
+End;

@@ -1,0 +1,11 @@
+procedure TForm1.Timer1Timer(Sender: TObject);
+var
+pt: TPoint;
+begin
+GetCursorPos(pt); // Pega a posição atual do mouse;
+//Mostra os valores das coordenadas do mouse
+label1.caption := IntToStr(pt.x) + ',' + IntToStr(pt.y);
+end;
+Esta é mais uma das milhares de funções da API do
+Windows.
+Abraços,
