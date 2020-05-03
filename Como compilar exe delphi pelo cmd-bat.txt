@@ -1,0 +1,6 @@
+echo 10.3.2
+call "C:\Program Files (x86)\Embarcadero\Studio\20.0\bin\rsvars.bat"
+
+msbuild.exe "Down.dproj" /target:Clean;Build /p:Platform=Win32 /p:config=release
+pause
+EXIT

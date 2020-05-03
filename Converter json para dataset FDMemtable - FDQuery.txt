@@ -1,0 +1,42 @@
+uses
+  REST.Response.Adapter, System.JSON;
+ 
+procedure JsonToDataset(aDataset : TDataSet; aJSON : string);
+var
+  JObj: TJSONArray;
+  vConv : TCustomJSONDataSetAdapter;
+begin
+  if (aJSON = EmptyStr) then
+  begin
+    Exit;
+  end;
+ 
+  JObj := TJSONObject.ParseJSONValue(aJSON) as TJSONArray;
+  vConv := TCustomJSONDataSetAdapter.Create(Nil);
+ 
+  try
+    vConv.Dataset := aDataset;
+    vConv.UpdateDataSet(JObj);
+  finally
+    vConv.Free;
+    JObj.Free;
+  end;
+end;
+
+
+//Usar
+
+procedure TForm1.Button1Click(Sender: TObject);
+const
+  MEU_JSON =
+  '[{'+
+	'"Titulo": "Ate que a sorte nos separe",'+
+	'"duracao": "120 min"'+
+  '}, {'+
+	'"Titulo": "Matrix",'+
+	'"duracao": "140 min"'+
+  '}]';
+begin
+  JsonToDataset(FDMemTable1, MEU_JSON);
+  JsonToDataset(ClientDataSet1, MEU_JSON);
+end;

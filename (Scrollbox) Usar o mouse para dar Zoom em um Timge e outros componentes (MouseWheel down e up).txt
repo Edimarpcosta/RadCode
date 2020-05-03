@@ -1,0 +1,22 @@
+procedure TForm1.ScrollBox1MouseWheelDown(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+     If (imgPro.Height > ScrollBox1.Height) or (imgPro.Width > ScrollBox1.Width)
+    then
+    begin
+      imgPro.Height := (imgPro.Height * 2) div 3;
+      imgPro.Width := (imgPro.Width * 2) div 3;
+    end;
+end;
+
+
+
+///
+
+
+procedure TForm1.ScrollBox1MouseWheelUp(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+    imgPro.Height := (imgPro.Height * 3) div 2;
+    imgPro.Width := (imgPro.Width * 3) div 2;
+end;

@@ -1,0 +1,7 @@
+=DIREITA(A1;NÚM.CARACT(A1)-PROCURAR("-";A1))
+
+
+
+1060-celosia.html
+
+celosia.html

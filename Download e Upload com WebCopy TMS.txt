@@ -1,0 +1,58 @@
+//Download Unico
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+WebCopy1.Items.Clear;
+   with WebCopy1.Items.Add do
+      begin
+        url := edtLink.Text;
+        TargetDir := tgt.Text//C:\Temp\;
+      end;
+  WebCopy1.ThreadExecute;
+end;
+
+
+//Download multiplo
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+if tgt.Text='' then    begin
+  tgt.Text := GetCurrentDir;
+end;
+
+  with stringgrid1 do
+  begin
+    cells[1,0] := 'URL';
+    cells[1,1] := 'http://www.tmssoftware.biz/download/updatebuilder.zip';
+    cells[1,2]:='http://www.tmssoftware.net/public/FTPUploader.zip';
+  end;
+end;
+
+procedure TForm1.Label19Click(Sender: TObject);
+begin
+  ShellExecute(handle, 'open', 'https://tmssoftware.com/site/tmsvcluipack.asp', nil, nil, SW_SHOWNORMAL);
+end;
+
+procedure TForm1.WebCopy1FileDone(Sender: TObject; idx: Integer);
+begin
+  StringGrid1.Cells[0, idx + 1] := '*';
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+ i: Integer;
+begin
+  WebCopy1.Items.Clear;
+  for i := 1 to stringgrid1.rowcount-1 do
+  begin
+    StringGrid1.Cells[0, i] := '';
+    if StringGrid1.Cells[1, i] <> '' then
+      with WebCopy1.Items.Add do
+      begin
+        url := StringGrid1.Cells[1, i];
+        TargetDir := tgt.Text;
+      end;
+  end;
+  WebCopy1.ThreadExecute;
+
+end;
+
+//Upload

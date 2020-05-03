@@ -1,0 +1,15 @@
+Baixe o componente e instale: (Testado delphi 10.3)
+
+https://www.rarlab.com/rar/RARComponent_12.zip
+
+
+procedure TMainForm.Button1Click(Sender: TObject);
+var
+  Path:String;
+begin
+     path:=ExtractFilePath(Application.Exename) ;
+     RARArchive.OpenFile(path+'Wifi.rar');
+    if RARArchive.Extract(path,True,nil) then showmessage('Extraido')
+      else
+    showmessage('failed');
+    end;

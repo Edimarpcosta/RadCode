@@ -1,0 +1,34 @@
+//Uses Registry
+Procedure SetIEEmulation(VersaoIE : Integer);
+Var
+   R : TRegistry;
+   V : Integer;
+Begin
+   V := 11001;
+   Case VersaoIE Of
+      7 : V := 7000;
+      8 : V := 8888;
+      9 : V := 9999;
+      10 : V := 10001;
+      11 : V := 11001;
+   End;
+   // internet explorer 11 = 11000 ou 11001
+   // internet explorer 10 = 10000 ou 10001
+   // internet explorer 9 = 9000 ou 9999
+   // internet explorer 8 = 8000 ou 8888
+   // internet explorer 7 = 7000
+   // https://msdn.microsoft.com/en-us/library/ee330730%28v=vs.85%29.aspx
+   // resumidamente, esta função grava um valor no registro que força a emulação da versão do Internet Explorer para o programa indicado
+   // só é preciso o nome do programa, não é necessário o path completo
+   R := TRegistry.Create;
+   Try
+      R.RootKey := HKEY_CURRENT_USER;
+      R.OpenKey('SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION\',False);
+      // código para emular o internet explorer 11
+      R.WriteInteger(ExtractFileName(ParamStr(0)),V);
+   Finally
+      R.CloseKey;
+      R.Free;
+   End;
+End;
+End;

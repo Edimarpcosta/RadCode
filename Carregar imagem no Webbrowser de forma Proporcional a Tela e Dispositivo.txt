@@ -1,0 +1,13 @@
+https://community.idera.com/developer-tools/b/blog/posts/how-to-best-load-an-image-from-a-url-using-twebbrowser-when-targeting-multiple-devices
+
+
+procedure TWebBrowserImageDemo.FormCreate(Sender: TObject);
+const
+  cHtmlString = '<img src=%s width=100%% height=100%%>';
+var
+  UrlOfImage: string;
+begin
+  UrlOfImage := 'https://static.pexels.com/photos/7345/pexels-photo.jpg';  //replace with your own URL
+  WebBrowser1.LoadFromStrings(Format(cHtmlString, [UrlOfImage]), '');
+end;
+end.

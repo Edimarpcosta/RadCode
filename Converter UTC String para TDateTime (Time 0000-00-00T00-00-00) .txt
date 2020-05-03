@@ -1,0 +1,24 @@
+http://docwiki.embarcadero.com/Libraries/Seattle/de/System.DateUtils.ISO8601ToDate
+
+
+
+
+
+//
+Var aData:string;
+Begin
+ aData := FDMemTable2.FieldByName('PriceValidUntil').AsString;
+ //aData:='2019-03-18T00:00:00'
+ Edit4.Text := DateTimeToStr(ISO8601ToDate(aData));
+ End;
+ 
+ 
+ 
+ 
+ 
+ 
+ AISODate	AReturnUTC	Textrepräsentation des TDateTime-Ergebnisses
+2013-10-18T18:36:22.966Z	True	10/18/2013 6:36:22 PM
+2013-10-18T18:36:22.966Z	False	10/18/2013 10:36:22 PM
+2013-10-18T18:36:22.966-03:00	True	10/18/2013 9:36:22 PM
+2013-10-18T18:36:22.966-03:00	False	10/19/2013 1:36:22 AM

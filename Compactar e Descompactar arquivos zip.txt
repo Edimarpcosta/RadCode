@@ -1,6 +1,6 @@
-Declare System.Zip ou apenas Zip na uses do form. 
+//Declare System.Zip ou apenas Zip na uses do form. 
 
-Compactar 
+//Compactar 
 
 Código:
 function Zip(Files: TStrings; ZipName: String): boolean; // Compacta 
@@ -25,7 +25,8 @@ begin
 end;
 
 
-Descompactar 
+//Descompactar 
+//Como Usar UnZip(EditArquivoZip.Text,edtDest.Text);
 
 Código:
 function UnZip(ZipName: string; Destination: string): boolean; // Descompacta 
@@ -43,3 +44,4 @@ begin
   end; 
   Result := True; 
 end;
+

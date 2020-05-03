@@ -1,0 +1,60 @@
+//http://delphi-kb.blogspot.com/2008/05/how-to-move-timage-on-scrollbox.html
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  ExtCtrls, JPEG, StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    ScrollBox1: TScrollBox;
+    Image1: TImage;
+    Label1: TLabel;
+    procedure Image1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Image1MouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+  private
+    { Private declarations }
+    FLastDown: TPoint;
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.DFM}
+
+procedure TForm1.Image1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  GetCursorPos(FLastDown);
+end;
+
+procedure TForm1.Image1MouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  FLastDown := Point(-1, -1);
+end;
+
+procedure TForm1.Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+var
+  pt: TPoint;
+begin
+  if (ssLeft in Shift) and (FLastDown.X >= 0) then
+  begin
+    GetCursorPos(pt);
+    Scrollbox1.VertScrollBar.Position := Scrollbox1.VertScrollBar.Position + FLastDown.Y - pt.Y;
+    Scrollbox1.HorzScrollBar.POsition := Scrollbox1.HorzScrollBar.Position + FLastDown.X - pt.X;
+    FLastDown := pt;
+    label1.caption := format('%d:%d', [pt.x, pt.y]);
+  end;
+end;
+
+end.

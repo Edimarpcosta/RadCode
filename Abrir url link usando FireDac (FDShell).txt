@@ -1,0 +1,5 @@
+//Abrir url link usando FireDac (FDShell)
+uses FireDAC.Stan.Util
+
+FDShell('http://www.embarcadero.com/products/rad-studio/firedac', '');
+

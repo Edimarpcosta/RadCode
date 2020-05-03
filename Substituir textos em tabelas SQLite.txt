@@ -1,0 +1,21 @@
+UPDATE
+    Produtos
+SET
+    Sec = REPLACE(Sec,'Normal','');
+--
+UPDATE
+    Produtos
+SET
+    Sec = REPLACE(Sec,'Insumo','');
+	
+--ou
+
+UPDATE
+    Produtos
+SET
+    L = REPLACE(L,'0','');
+	--
+UPDATE
+    Produtos
+SET
+    L = REPLACE(L,'1','');

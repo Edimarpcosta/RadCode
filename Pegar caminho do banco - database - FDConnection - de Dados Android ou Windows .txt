@@ -1,0 +1,41 @@
+//uses
+//System.IOUtils
+Codigo para pegar o Banco de dados SQLite pelo delphi e copiar para o android;
+
+Em uses declare : System.IOUtils;
+
+//Android
+fdConexao:FDConnection;
+
+procedure TfrmPrincipal.fdConexaoBeforeConnect(Sender: TObject);
+begin
+  fdConexao.Params.Values['Database'] := TPath.Combine(TPath.GetDocumentsPath, 'BancoDados.db');
+end;
+
+procedure TFCEP.FD_DBBeforeConnect(Sender: TObject);
+begin
+  FDConnection1.Params.Values['Database'] := System.IOUtils.TPath.Combine
+    (System.IOUtils.TPath.GetDocumentsPath, 'CEPDB.db');
+end;
+
+// Android ou 
+
+procedure TfMenu.FDConnection1BeforeConnect(Sender: TObject);
+begin
+if Sender is TFDConnection then
+  begin
+    TFDConnection(Sender).Params.Values['Database'] := System.IOUtils.TPath.Combine
+    (System.IOUtils.TPath.GetDocumentsPath, 'CEPDB.db');
+  end;
+end;
+
+
+//Windows
+
+procedure TfMenu.FDConnection1BeforeConnect(Sender: TObject);
+begin
+if Sender is TFDConnection then
+  begin
+    TFDConnection(Sender).Params.Database:=at+'db.db';
+  end;
+end;

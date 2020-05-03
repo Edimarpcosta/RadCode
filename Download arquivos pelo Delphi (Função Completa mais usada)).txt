@@ -1,0 +1,25 @@
+ //Uses URLMon, ShellApi,WiniNet;
+ 
+ function DownloadFile(SourceFile, DestFile: string): Boolean;
+   // Download universal
+  DeleteUrlCacheEntry(PWideChar(SourceFile)); // limpar cache url
+  DeleteUrlCacheEntry(PWideChar(DestFile)); // limpar cache arquivo
+  DeleteUrlCacheEntryA(PAnsiChar(DestFile));
+
+  try
+    Result := URLDownloadToFile(nil, pchar(SourceFile), pchar(DestFile),
+      0, nil) = 0;
+  except
+    Result := false;
+  end;
+  End;
+  
+  
+  //Como usar
+  
+   if DownloadFile
+    ('https://github.com/Edimarpcosta/Coletor/raw/master/PricesEnc.db',
+    'PricesEnc.db') then
+  begin
+   ShowMessage('Arquivo baixado PricesEnc.db');
+  end;

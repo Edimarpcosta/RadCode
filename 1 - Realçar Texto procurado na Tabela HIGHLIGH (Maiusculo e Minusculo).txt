@@ -1,0 +1,107 @@
+//Exemplo de uso:
+
+procedure TFPrincipal.DBGrid1DrawColumnCell(Sender: TObject; const [Ref] Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+   procedure Highligh(Sender, Rect, Column, State, mkPesquisa.Text,LBP.Caption{Campo da tabela});
+end;
+
+//---------------------------------------------------------------------------------------------------------------
+
+//Declare a procedure abaixo e pressione CTRL+SHIFT+C:
+
+ procedure Highligh(Sender: TObject; const Rect: TRect; Column: TColumn; State: TGridDrawState; Texto: string; FieldName: string);
+
+
+//Apos pressionar CTRL+SHIFT+C, exclua o begin e cole o texto abaixo:
+
+var
+  r: TRect;
+  Segmento, Restante: string;
+  x, w: Integer;
+begin
+  if (Column.FieldName <> FieldName) then
+    Exit;
+ if (Texto = '') or (Pos((Texto), (Column.Field.DisplayText)) = 0) then
+    Exit;
+
+// Limpa a area para impressão -------------------------------------------------
+  if gdSelected in State then
+  begin
+    TDBGrid(Sender).Canvas.Brush.Color := clHighlight;
+  end
+  else
+    TDBGrid(Sender).Canvas.Brush.Color := TDBGrid(Sender).Color;
+
+  TDBGrid(Sender).Canvas.FillRect(Rect);
+
+// Segmenta o texto e Calcula o tamanho do texto em pixel ----------------------
+  w := 0;
+  r := Rect;
+  Restante := Column.Field.DisplayText;
+  while Pos((Texto), Restante) > 0 do
+  begin
+    if Pos((Texto), Restante) > 1 then
+    begin
+      Segmento := Copy(Restante, 1, Pos((Texto), Restante) - 1);
+      TDBGrid(Sender).Canvas.Font.Assign(TDBGrid(Sender).Font);
+      w := w + TDBGrid(Sender).Canvas.TextWidth(Segmento);
+      Restante := Copy(Restante, Length(Segmento) + 1, Length(Restante));
+    end;
+    Segmento := Copy(Restante, 1, Length(Texto));
+    TDBGrid(Sender).Canvas.Font.Color := clRed;
+    TDBGrid(Sender).Canvas.Font.Style := [fsBold];
+    w := w + TDBGrid(Sender).Canvas.TextWidth(Segmento);
+    Restante := Copy(Restante, Length(Texto) + 1, Length(Restante));
+  end;
+  TDBGrid(Sender).Canvas.Font.Assign(TDBGrid(Sender).Font);
+  w := w + TDBGrid(Sender).Canvas.TextWidth(Restante);
+
+// Calcula o primeiro pixel a ser impresso com base no alinhamento -------------
+  if Column.Alignment = taLeftJustify then
+    x := Rect.Left
+  else if Column.Alignment = taRightJustify then
+    x := Rect.Right - w - 4
+  else
+    x := Rect.Left + ((Rect.Right - Rect.Left - w) div 2);
+
+// Imprime o texto segmentado --------------------------------------------------
+  r := Rect;
+  Restante := Column.Field.DisplayText;
+  while Pos((Texto), Restante) > 0 do
+  begin
+
+    if Pos((Texto), Restante) > 1 then
+    begin
+         // Imprime Texto normal
+      Segmento := Copy(Restante, 1, Pos((Texto), Restante) - 1);
+
+      TDBGrid(Sender).Canvas.Font.Assign(TDBGrid(Sender).Font);
+      if gdSelected in State then
+        TDBGrid(Sender).Canvas.Font.Color := clWhite;
+
+      TDBGrid(Sender).Canvas.TextOut(x + 2, r.Top + 2, Segmento);
+         // Calcula no Começo do próximo texto.
+      x := x + TDBGrid(Sender).Canvas.TextWidth(Segmento);
+      Restante := Copy(Restante, Length(Segmento) + 1, Length(Restante));
+    end;
+
+      // Imprime Texto grifado
+    Segmento := Copy(Restante, 1, Length(Texto));
+    if gdSelected in State then
+      TDBGrid(Sender).Canvas.Font.Color := clYellow
+    else
+      TDBGrid(Sender).Canvas.Font.Color := clRed;
+    TDBGrid(Sender).Canvas.Font.Style := [fsBold];
+    TDBGrid(Sender).Canvas.TextOut(x + 2, r.Top + 2, Segmento);
+
+      // Calcula no Começo do próximo texto.
+    x := x + TDBGrid(Sender).Canvas.TextWidth(Segmento);
+    Restante := Copy(Restante, Length(Texto) + 1, Length(Restante));
+  end;
+
+   // Imprime Ultimo Texto normal
+  TDBGrid(Sender).Canvas.Font.Assign(TDBGrid(Sender).Font);
+  if gdSelected in State then
+    TDBGrid(Sender).Canvas.Font.Color := clWhite;
+
+  TDBGrid(Sender).Canvas.TextOut(x + 2, r.Top + 2, Restante);

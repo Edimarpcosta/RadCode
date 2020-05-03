@@ -1,0 +1,131 @@
+program HttpServer4Linux;
+
+{$APPTYPE CONSOLE}
+
+uses
+  SysUtils,
+  rtcTypes,
+  rtcConn,
+  rtcDataSrv,
+  rtcHttpSrv,
+  rtcInfo,
+  FireDAC.Comp.Client,
+  FireDAC.Stan.Intf,
+  FireDAC.Stan.Def,
+  FireDAC.Phys.MySQLDef,
+  FireDAC.Phys,
+  FireDAC.Phys.MySQL,
+  FireDAC.DApt,
+  FireDAC.Stan.Async,
+  FireDAC.Stan.Pool,
+  rtcMW.System.RtcJsonHelper,
+  rtcMW.Server.ObjectPooling in 'rtcMW.Server.ObjectPooling.pas';
+
+var
+  HttpServer: TRtcHttpServer;
+  DataProvider: TRtcDataProvider;
+
+const
+  ConnectionString = 'Name=MySQLDemo;DriverID=MySQL;Database=testdb;'
+     +'User_Name=root;Password=123456;Server=127.0.0.1;Port=3306;'
+     +'Pooled=True;CharacterSet=utf8;';
+
+begin
+  HttpServer := TRtcHttpServer.Create(nil);
+  DataProvider := TRtcDataProvider.Create(nil);
+  try
+    DataProvider.Server := HttpServer;
+    DataProvider.OnCheckRequest := DataProvider.Anon(
+      procedure(Sender: TRtcConnection)
+      begin
+        with Sender do
+          if (Request.Method = 'GET') and (Request.ContentLength = 0) then
+          if (Request.URI = '/cats') then
+          Accept;
+      end);
+    DataProvider.OnDataReceived := DataProvider.Anon(
+      procedure(Sender: TRtcConnection)
+      var
+        DBObject: TDBObject;
+      begin
+        with Sender do
+        begin
+          if Request.Complete then
+          begin
+          Response.ContentType := 'application/json';
+          DBObject := DBPool.Acquire('MySQLDemo');
+          try
+          try
+          DBObject.Query.Open('SELECT * FROM cats');
+          //将查询的数据集转换为JSON发送到客户端
+          WriteEx(DBObject.Query.ToJsonArray.toJSONEx);
+          except
+          on E: Exception do
+          Write(E.Message);
+          end;
+          finally
+          DBPool.Release(DBObject);
+          end;
+          end;
+        end;
+
+      end);
+
+    HttpServer.OnRequestNotAccepted := HttpServer.Anon(
+      procedure(Sender: TRtcConnection)
+      begin
+        with Sender do
+        begin
+          Response.Status(404, 'Not Found');
+          Response.ContentType := 'text/plain';
+          Write('Bad command.');
+          Disconnect;
+        end;
+      end);
+    HttpServer.OnListenStart := HttpServer.Anon(
+      procedure(Sender: TRtcConnection)
+      begin
+        Writeln('RTC WEB 服务已启动.');
+      end);
+    HttpServer.OnListenStop := HttpServer.Anon(
+      procedure(Sender: TRtcConnection)
+      begin
+        Writeln('RTC WEB 服务已停止.');
+      end);
+    HttpServer.OnListenError := HttpServer.Anon(
+      procedure(Sender: TRtcConnection; E: Exception)
+      begin
+        Writeln('Server Error: ' + E.Message);
+      end);
+
+    // 创建数据库连接配置
+    var ConnectionDef := FDManager.ConnectionDefs.Add;
+    ConnectionDef.ParseString(ConnectionString);
+
+    //配置数据连接对象池
+    DBPool.OnCreateObject := procedure(Sender: TObject; var AObject: TDBObject)
+      begin
+        AObject := TDBObject.Create;
+      end;
+
+    DBPool.OnDestroyObject := procedure(Sender: TObject; var AObject: TDBObject)
+      begin
+        FreeAndNil(AObject);
+      end;
+    //启动连接池
+    DBPool.Start();
+
+    HttpServer.ServerPort := '9981';
+    HttpServer.MultiThreaded := True;
+    HttpServer.Listen();
+
+    Writeln('按 <Enter> 退出 ...');
+    Readln;
+  finally
+    DBPool.Stop;
+    HttpServer.StopListenNow();
+    FreeAndNil(HttpServer);
+    FreeAndNil(DataProvider);
+  end;
+
+end.

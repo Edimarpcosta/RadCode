@@ -1,0 +1,11 @@
+procedure TForm1.Button8Click(Sender: TObject);
+var
+  Doc: Variant;
+begin
+  if NOT Assigned(WebBrowser1.Document) then
+    WebBrowser1.Navigate('about:blank');
+  Doc := WebBrowser1.Document;
+  Doc.Clear;
+  Doc.Write(cxDBMemo1.text);
+  Doc.Close;
+end;

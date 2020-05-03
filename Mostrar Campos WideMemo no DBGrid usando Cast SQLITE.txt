@@ -1,0 +1,14 @@
+select CAST (Category as CHAR) as Category from main
+
+
+select CAST (Category, Script_Name as CHAR) as Category, Script_Name from main
+
+
+
+
+
+
+
+
+
+https://forum.lazarus.freepascal.org/index.php?topic=45165.0

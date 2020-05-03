@@ -1,0 +1,16 @@
+procedure CenterControl( AControl : TControl );
+begin
+  if Assigned( AControl.Parent )
+  then
+    begin
+      // remove alignment
+      AControl.Align := alNone;
+      // remove the anchors
+      AControl.Anchors := [];
+      // center on parent
+      AControl.Left := ( AControl.Parent.ClientWidth - AControl.Width ) div 2;
+      AControl.Top := ( AControl.Parent.ClientHeight - AControl.Height ) div 2;
+    end
+  else
+    raise Exception.Create( 'Control needs a Parent!' );
+end;

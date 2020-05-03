@@ -1,0 +1,1 @@
+select * from Produtos where COD IN (570524,608211)

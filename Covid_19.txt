@@ -1,0 +1,12 @@
+https://covid.saude.gov.br/
+https://google.com/covid19-map/?hl=pt-BR
+https://en.wikipedia.org/wiki/2019%E2%80%9320_coronavirus_pandemic_by_country_and_territory#Pandemic_by_country_and_territory
+http://www.piracicaba.sp.gov.br/plantao+coronavirus+covid+19.aspx
+https://apify.com/covid-19
+https://www.arcgis.com/apps/opsdashboard/index.html#/85320e2ea5424dfaaa75ae62e5c06e61
+https://app.developer.here.com/coronavirus/
+https://www.who.int/emergencies/diseases/novel-coronavirus-2019
+https://experience.arcgis.com/experience/685d0ace521648f8a5beeeee1b9125cd
+https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats
+https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6
+https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports

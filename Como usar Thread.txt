@@ -6,9 +6,33 @@ TThread.CreateAnonymousThread(
         procedure()
         begin
           //Seu código aqui
+        
         end);
 
     //
     //Ações ao terminar o processo acima
 
     end).Start;
+	
+	
+	
+	ou 
+	
+	
+	procedure TForm1.rect_carrinhoClick(Sender: TObject);
+begin
+        TThread.CreateAnonymousThread(procedure
+        begin
+		 //Tarefa 1
+                sleep(1000); // Acesso ao banco... acesso WS...
+				//
+
+                TThread.Synchronize(nil, procedure
+                begin
+                        
+             //Seu Codigo Aqui //Tarefa 2
+
+                end);
+
+        end).Start;
+end;

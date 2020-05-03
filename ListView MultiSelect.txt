@@ -1,0 +1,55 @@
+https://guardianelinks.com/threads/using-the-tlistview-to-select-multiple-items.39195/
+É muito fácil criar uma lista suspensa usando o TComboBox para selecionar um único item, mas como você pode facilmente selecionar vários itens de uma lista no iOS e no Android? Uma maneira fácil é usar o componente TListView no EditMode. Para visualizar um exemplo disso, adicione um TListView a um novo formulário e, usando o FormCreate, adicione 20 itens usando um loop simples.
+
+
+//Código:
+procedure TForm1.FormCreate(Sender: TObject);
+var
+  I: Integer;
+begin
+  ListView1.BeginUpdate;
+  try
+    for I := 1 to 20 do
+      ListView1.Items.Add.Text := I.ToString();
+  finally
+    ListView1.EndUpdate;
+  end;
+end;
+
+Observe também o uso de BeginUpdate e EndUpdate usando o bloco Tentar Finalmente para acelerar o processamento. Isso impede que o ListView seja redesenhado entre cada item adicionado.
+Agora, usando dois botões, podemos adicionar eventos de clique para ver como alternar o EditMode.
+
+
+//Código:
+procedure TForm1.btnEditClick(Sender: TObject);
+begin
+  ListView1.EditMode := not ListView1.EditMode;
+  (Sender as TButton).Text := 'EditMode '+ListView1.EditMode.ToString(TUseBoolStrs.True);
+end;
+
+..e depois mostrar os itens selecionados.
+Cada TListViewItem possui uma propriedade Checked que pode ser consultada para descobrir se o item está selecionado. Novamente, usando uma aparência simples, é possível verificar cada item e adicioná-lo a uma lista que mostraremos.
+
+
+//Código:
+procedure TForm1.btnShowSelectedClick(Sender: TObject);
+var
+  SL : TStringList;
+  I: Integer;
+begin
+  if ListView1.Items.CheckedCount = 0 then begin
+    ShowMessage('No selected items');
+    Exit;
+  end;
+
+  SL := TStringList.Create;
+  try
+    for I := 0 to ListView1.ItemCount -1 do begin
+       if ListView1.Items[I].Checked then
+         SL.Add(ListView1.Items[I].Text);
+    end;
+    ShowMessage('Items selected: '+SL.CommaText);
+  finally
+    SL.Free;
+  end;
+end;

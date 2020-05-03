@@ -1,0 +1,3 @@
+https://www.cobasi.com.br/api/catalog_system/pub/products/search?fq=skuId:570524
+
+https://www.cobasi.com.br/api/catalog_system/pub/products/search?fq=skuId:765899

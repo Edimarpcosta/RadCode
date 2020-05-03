@@ -1,0 +1,54 @@
+Vá em Project > Resource and Images 
+Depois selecione o tipo "Resource Type" e o nome que quiser em "Resource Indentifier"
+
+procedure TfMenu.ExtrairDB;
+var
+  ResStream: TResourceStream;
+begin
+  ResStream := TResourceStream.Create(HInstance, 'SQLITE_DB', RT_RCDATA);
+  try
+    ResStream.Position := 0;
+    ResStream.SaveToFile('db.db');
+  finally
+    ResStream.Free;
+  end;
+end;
+
+
+
+//Chamar ExtrairDB no onCreate do Form;
+procedure TfMenu.FormCreate(Sender: TObject);
+begin
+ ExtrairDB;
+end;
+
+//DB + Foto
+procedure TfMenu.ExtrairDB;
+var
+  ResStream, ResFoto: TResourceStream;
+  Bitmap: TBitmap;
+begin
+  ResStream := TResourceStream.Create(HInstance, 'SQLITE_DB', RT_RCDATA);
+  ResFoto := TResourceStream.Create(HInstance, 'FOTO', RT_BITMAP);
+  try
+    ResStream.Position := 0;
+    ResFoto.Position := 0;
+    if not FileExists('db.db') then
+    begin
+      ResStream.SaveToFile('db.db');
+    end;
+    try
+      if not Assigned(Bitmap) then
+        Bitmap := TBitmap.Create();
+      Bitmap.LoadFromStream(ResFoto);
+      Image1.Picture.Bitmap := Bitmap;
+    except
+      on E: Exception do
+        ShowMessage(E.Message);
+    end;
+  finally
+    ResStream.Free;
+    ResFoto.Free;
+    Bitmap.Free;
+  end;
+end;

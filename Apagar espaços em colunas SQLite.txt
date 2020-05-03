@@ -1,0 +1,4 @@
+UPDATE
+    Produtos
+SET
+    EAN = TRIM(EAN);

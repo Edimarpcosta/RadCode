@@ -1,0 +1,32 @@
+Adicione o codigo abaixo ao .dpr
+
+{$WEAKLINKRTTI ON}
+{$RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([])}
+{$SETPEFLAGS 1}
+
+ou 
+
+{$IFDEF RELEASE}
+{$WEAKLINKRTTI ON}
+{$RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([])}
+{$ENDIF}
+
+
+Outros Metodos:
+
+https://www.swissdelphicenter.ch/en/showcode.php?id=1159
+
+01) Use a EXE-Packer (UPX, ASPack,...)
+02) Use KOL.
+03) Write your application without VCL
+04) Use the ACL (API Controls Library)
+05) Use StripReloc. https://jrsoftware.org/download.php/striprlc.zip
+06) Deactivate remote debugging information and TD32.
+07) You might want to put code in a dll.
+08) Don't put the same images several times on a form. Load them at runtime.
+09) Use compressed images (JPG and not BMP)
+10) Store less properties in DFM files
+(See Link below "How To Make Your EXE's Lighter")
+
+11) Use the TStringList replacement by ~LOM~
+Use the Minireg - TRegistry replacement by Ben Hochstrasser

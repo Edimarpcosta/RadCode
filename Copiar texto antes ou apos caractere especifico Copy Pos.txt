@@ -1,0 +1,16 @@
+// Exemplo Edimar:Pinheiro usando :
+
+Var Texto,Nome,Sobrenome:string;
+Begin
+Texto:='Edimar:Pinheiro';
+
+Nome:=Trim(Copy(Texto,1,Pos(':',Texto)-1));
+
+Sobrenome:=Copy(Texto,Pos(':',Texto)+1,Length(Texto));
+
+//Saida
+//Nome = Edimar
+//Sobrenome = Pinheiro
+End;
+
+

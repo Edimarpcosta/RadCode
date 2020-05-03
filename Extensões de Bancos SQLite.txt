@@ -1,0 +1,13 @@
+Uso no OpenFileDialog :   *.db|*.db|*.sdb|*.sdb|*.sqlite|*.sqlite|*.db3|*.db3|*.s3db|*.s3db|*.sqlite3|*.sqlite3|*.sl3|*.sl3|*.db2|*.db2|*.s2db|*.s2db|*.sqlite2|*.sqlite2|*.sl2|*.sl2
+
+db
+sdb
+sqlite
+db3
+s3db
+sqlite3
+sl3
+db2
+s2db
+sqlite2
+sl2
