@@ -1,3 +1,15 @@
+uses
+{$IFDEF ANDROID}Androidapi.JNI.GraphicsContentViewText,
+Androidapi.JNI.App,
+Androidapi.Helpers,
+FMX.Platform.Android,
+Androidapi.JNI.JavaTypes,
+Androidapi.JNI.Net,
+Androidapi.JNI.Os,System.IoUtils{$ENDIF};
+
+
+
+
 var
   IntentWhats: JIntent;
   Uri: Jnet_Uri;

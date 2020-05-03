@@ -3,25 +3,14 @@ uses //...
 //...
 //Uses e seus dependentes entre chaves{}...
 
-uses System.IOUtils,IdURI, {}
-
-Androidapi.JNI.JavaTypes,{JFile}
-
-Androidapi.JNIBridge,{ILocalObject,GetObjectID}
-
-Androidapi.JNI.GraphicsContentViewText,{JIntent,setType}
-
-Androidapi.JNI.Net, {Jnet_Uri}
-
-Androidapi.JNI.Os,{TJParcelable}
-
-Androidapi.IOUtils,{TPath,GetShareddocumentsPath}
-
-Androidapi.Jni.App,{startActivity}
-
-FMX.Helpers.Android,{}
-
-FMX.Platform;{}
+uses
+{$IFDEF ANDROID}Androidapi.JNI.GraphicsContentViewText,
+Androidapi.JNI.App,
+Androidapi.Helpers,
+FMX.Platform.Android,
+Androidapi.JNI.JavaTypes,
+Androidapi.JNI.Net,
+Androidapi.JNI.Os,System.IoUtils{$ENDIF};
 //---------------------------
 //...
 
