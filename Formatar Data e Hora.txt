@@ -1,0 +1,36 @@
+Sintaxe:
+
+y  = Ano com 2 dígitos 
+  yy  = Ano com 2 dígitos 
+yyyy  = Ano com 4 dígitos 
+   m  = Número do mês do ano sem o 0 no início 
+  mm  = Número do mês com 2 dígitos 
+ mmm  = Mês usando nomes curtos (Jan) 
+mmmm  = Mês usando nomes longos  (Janeiro) 
+   d  = Número do dia sem o 0 no início 
+  dd  = Número do dia com dois dígitos 
+ ddd  = Dia usando nomes curtos (Dom) 
+dddd  = Dia usando nomes longos  (Domingo) 
+
+--------------------------------------------------------
+
+Hora;
+stat1.Panels[1].Text := ' '+FormatDateTime('HH:mm:ss.zzz', Now);
+--------------------------------------------
+
+Data;
+
+Uso:
+
+ stat1.Panels[0].Text := FormatDateTime('"Hoje é" ' + 'DDDD, d "de "mmmm "de "yyyy', Now);
+
+Saida:
+Hoje é terça feira, 28 de março de 2017
+
+
+
+----------------------------
+
+
+ stat1.Panels[0].Text := FormatDateTime('"Hoje é" ' + 'dddd, d "de "mmmm "de "yyyy, " as " HH:mm:ss.zzz', Now);
+ 

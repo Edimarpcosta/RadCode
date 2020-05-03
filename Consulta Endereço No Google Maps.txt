@@ -1,0 +1,34 @@
+Procedure TFManuClientes.PesquisaMapa ;
+Var ConsultaEndereco : String ;
+    cEndereco : String ;
+    nPos : Integer ;
+begin
+
+   nPos := Pos( ',', mkEndereco.Text ) ;
+
+//   If nPos > 0 Then
+//      cEndereco := Copy( mkEndereco.Text, 1, nPos - 1 )
+//   Else
+      cEndereco := mkEndereco.Text ;
+
+   ConsultaEndereco := 'http://maps.google.com/maps?q=;' ;
+
+   If Trim( mkCep.Text ) <> '' Then
+      ConsultaEndereco := ConsultaEndereco + mkCep.Text ;
+
+//   Else begin
+{
+      If Trim( mkEndereco.Text ) <> '' Then
+         ConsultaEndereco := ConsultaEndereco + cEndereco + ',' ;
+
+      If Trim( mkCidade.Text ) <> '' Then
+         ConsultaEndereco := ConsultaEndereco + mkCidade.Text + ',' ;
+
+      If Trim( mkUF.Text ) <> '' Then
+         ConsultaEndereco := ConsultaEndereco + mkUF.Text + ',' ;
+
+//   End ;
+}
+   WebBrowser1.Navigate(ConsultaEndereco);
+
+End ;

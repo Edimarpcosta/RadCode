@@ -1,0 +1,21 @@
+//Declare
+ function   FuncaoAcento(dado:String):String;
+
+------------------------------------------
+//Como usar;
+edtWord.Text:=FuncaoAcento(edtWord.Text);
+----------------------------------------------------------
+
+
+Function TFData.FuncaoAcento(dado:String):String;
+var i: Integer;str:string;
+const
+   Acento='áéíóúàèìòùâêîôûäëïöüãõñçÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÄËÏÖÜÃÕÑÇ';
+   Normal='aeiouaeiouaeiouaeiouaoncAEIOUAEIOUAEIOUAEIOUAONC';
+begin
+  str:=dado;
+  for i := 1 to Length ( str ) do
+   if Pos(Str[i],Acento)<>0 Then
+      Str[i] := Normal[Pos(Str[i],Acento)];
+  Result:=str;
+End;

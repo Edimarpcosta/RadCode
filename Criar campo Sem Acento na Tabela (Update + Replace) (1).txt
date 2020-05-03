@@ -1,0 +1,32 @@
+//Troca caracteres Minusculos e Maiusculos
+
+Update Cidades 
+SET loc_nosub_sem_acento = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(loc_nosub, 'á','a'), 'ã','a'), 'â','a'), 'é','e'), 'ê','e'), 'í','i'), 'ó','o') ,'õ','o') ,'ô','o'),'ú','u'), 'ç','c'), 'Á','A'),'Ã','A'), 'Â','A'), 'É','E'), 'Ê','E'), 'Í','I'), 'Ó','O') ,'Õ','O') ,'Ô','O'),'Ú','U'), 'Ç','C')
+Where loc_nosub <>''
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Troca Normal
+
+Update Cidades 
+SET loc_nosub_sem_acento =  replace(replace(replace(replace(replace(replace(replace(replace( replace(replace(replace(loc_nosub, 'á','a'), 'ã','a'), 'â','a'), 'é','e'), 'ê','e'), 'í','i'), 'ó','o') ,'õ','o') ,'ô','o'),'ú','u'), 'ç','c')
+
+Where loc_nosub <>''
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Troca Minusculo
+
+Update Cidades 
+SET loc_nosub_sem_acento =  replace(replace(replace(replace(replace(replace(replace(replace( replace(replace(replace( lower(loc_nosub), 'á','a'), 'ã','a'), 'â','a'), 'é','e'), 'ê','e'), 'í','i'), 'ó','o') ,'õ','o') ,'ô','o'),'ú','u'), 'ç','c')
+
+Where loc_nosub <>''
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Troca Maiusculo
+
+Update Cidades 
+SET loc_nosub_sem_acento =  replace(replace(replace(replace(replace(replace(replace(replace( replace(replace(replace( upper(loc_nosub), 'Á','A'), 'Ã','A'), 'Â','A'), 'É','E'), 'Ê','E'), 'Í','I'), 'Ó','O') ,'Õ','O') ,'Ô','O'),'Ú','U'), 'Ç','C')
+
+Where loc_nosub <>''

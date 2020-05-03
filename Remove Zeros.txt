@@ -1,0 +1,25 @@
+//Declare 
+ function TiraTodosZeros(const Value: string): string;
+
+
+---------------------------------------------------------------------------------------
+Como Usar
+procedure TForm1.edt1Exit(Sender: TObject);
+begin
+edt1.Text:=TiraTodosZeros(edt1.Text);
+end;
+
+
+----------------------------------------------------------------------------------------
+
+
+
+function TForm1.TiraTodosZeros(const Value: string): string;
+var
+  temp: string;
+begin
+  temp:=value;
+  while pos('0',temp) > 0 do
+    Delete(temp,pos('0',temp),1);
+  Result:=temp;
+end;
