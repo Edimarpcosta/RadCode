@@ -5,44 +5,40 @@ Androidapi.Helpers,
 FMX.Platform.Android,
 Androidapi.JNI.JavaTypes,
 Androidapi.JNI.Net,
-Androidapi.JNI.Os,System.IoUtils{$ENDIF};
+Androidapi.JNI.Os,System.IoUtils,
+DW.Androidapi.JNI.FileProvider,
+DW.Android.Helpers{$ENDIF};
+{DW.Androidapi.JNI.FileProvider, DW.Android.Helpers // Kastri Free GitHub https://bit.ly/2WBnoXM};
 
 
 
-
+procedure TfPrecos.actEnviarExecute(Sender: TObject);
 var
-  IntentWhats: JIntent;
-  Uri: Jnet_Uri;
-  texto: string;
-  AttachmentFile: JFile;
-  spath: string;
-  FileUri: JParcelable;
+  LIntent: JIntent;
+  LAuthority: JString;
+  LUri: Jnet_Uri;
+  LFileName: string;
 begin
-  spath := TPath.GetSharedDownloadsPath + PathDelim + cbbPrecos.Selected.Text
-    + '.xlsx';
-  if FileExists(spath) then
-    begin
-
-      try
-        texto := spath;
-        IntentWhats := TJIntent.Create;
-        IntentWhats := TJIntent.JavaClass.init(TJIntent.JavaClass.ACTION_SEND);
-        // sPath := System.IOUtils.TPath.Combine(System.IOUtils.TPath.GetShareddocumentsPath(), 'PricesOut.txt');
-        FileUri := JParcelable
-          (TJnet_Uri.JavaClass.fromFile(TJFile.JavaClass.init
-          (StringToJString(spath))));
-        IntentWhats.putExtra(TJIntent.JavaClass.EXTRA_STREAM, FileUri);
-        IntentWhats.setType(StringToJString('text/plain'));
-        //
-        IntentWhats.addFlags(TJIntent.JavaClass.FLAG_GRANT_READ_URI_PERMISSION);
-        TAndroidHelper.Activity.startActivity(IntentWhats);
-        Application.ProcessMessages;
-      finally
-        // ShowMessage('Fim');
-        // Delete
-      end;
-    end
+  LFileName := TPath.Combine(TPath.GetSharedDocumentsPath, 'Precos.txt');
+  LAuthority := StringToJString
+    (JStringToString(TAndroidHelper.Context.getApplicationContext.
+    getPackageName) + '.fileprovider');
+  LUri := TJFileProvider.JavaClass.getUriForFile(TAndroidHelper.Context,
+    LAuthority, TJFile.JavaClass.init(StringToJString(LFileName)));
+  if chVer.IsChecked then
+  begin
+    LIntent := TJIntent.JavaClass.init(TJIntent.JavaClass.ACTION_VIEW);
+  end
   else
-    begin
-      ShowMessage('O arquivo não existe em: ' + sLineBreak + spath);
-    end;
+  begin
+    LIntent := TJIntent.JavaClass.init(TJIntent.JavaClass.ACTION_SEND);
+    //
+    LIntent.putExtra(TJIntent.JavaClass.EXTRA_STREAM,
+      TJParcelable.Wrap((LUri as ILocalObject).GetObjectID));
+    /// Adicionar Anexo (Se a action for SEND)
+  end;
+
+  LIntent.setDataAndType(LUri, StringToJString('text/plain'));
+  LIntent.setFlags(TJIntent.JavaClass.FLAG_GRANT_READ_URI_PERMISSION);
+  TAndroidHelper.Activity.startActivity(LIntent);
+end;
