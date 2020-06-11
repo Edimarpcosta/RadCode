@@ -1,0 +1,34 @@
+uses 
+StrUtils, mshtml;
+
+procedure TForm1.Button1Click(Sender: TObject);
+  function GetBetweenTags(TagStart, TagStop, HtmlText: String): string;
+  Var
+    P, P2: Integer;
+    str: String;
+  begin
+    result := '';
+    P := Pos(TagStart, HtmlText);
+    if P>0 Then
+    begin
+      P2 := PosEx(TagStop, HtmlText, P);
+      if P2>0 Then
+        result := copy(HtmlText, P+length(TagStart), P2-(P+length(TagStart)));
+    end;
+  end;
+
+var
+  iall: IHTMLElement;
+begin
+texto:='Isso é um texto de teste final';
+  if Assigned(WebBrowser1.Document) then
+  begin
+    iall := (WebBrowser1.Document AS IHTMLDocument2).body;
+    while iall.parentElement <> nil do
+    begin
+      iall := iall.parentElement;
+    end;
+  {html}  showmessage(GetBetweenTags('<TITLE>', '</TITLE>', uppercase(iall.outerHTML)));
+ {Texto Comum} showmessage(GetBetweenTags('Isso', 'final', Texto));
+  end;
+end.

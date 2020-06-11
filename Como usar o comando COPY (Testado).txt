@@ -1,0 +1,26 @@
+
+A Sintaxe da função Copy é:
+
+Copy(OndeCopiar:String,OndeComeçar:Integer, QuanTosCarateresCopiar:Integer);
+
+O Comando copy usa o Lenght do texto para contar onde começar e quantos caracteres Copiar
+
+
+
+Levado em conta que a String Drive = C:\Windows, então:
+
+Result :=Copy(Drive,1, 3); //A partir do primeiro, copiar 3 caracteres da Variavel Drive
+
+O valor de Result passa a ser = C:\
+
+--------------------------------------
+
+Result :=Copy(Drive,1, 3); //A partir do primeiro, copiar 3 caracteres da Variavel Drive
+
+
+O valor de Result passa a ser = Win
+
+--------------------------------------
+
+
+

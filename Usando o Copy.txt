@@ -1,0 +1,9 @@
+procedure TForm1.Button1Click(Sender: TObject);
+var
+palavra_inteira, trecho_copiado: string;
+begin
+palavra_inteira:= 'borland';
+trecho_copiado:= copy(palavra_inteira, 4, 3);
+ShowMessage(trecho_copiado);
+end;
+//Resultado "lan"

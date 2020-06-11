@@ -1,0 +1,23 @@
+
+ 	
+ var
+   Source, Target : string;
+ 
+ begin
+   Source := '12345678';
+   Target := Copy(Source, 3, 4);    // Target now = '3456'
+ 
+   Target := '12345678';
+   Insert('-+-', Target, 3);        // Target now = '12-+-345678'
+ 
+   Target := '12345678';
+   Delete(Target, 3, 4);            // Target now = '1278'
+ 
+   Target := StringOfChar('S', 5);  // Target now = 'SSSSS'
+ 
+   Source := 'This is a way to live A big life';
+ 
+   // Target set to 'This is THE way to live THE big life'
+   Target := StringReplace(before, ' a ', ' THE ',
+                           [rfReplaceAll, rfIgnoreCase]);
+ end;
